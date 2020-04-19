@@ -1,5 +1,5 @@
 //%attributes = {}
-$path:=System folder:C487(Desktop:K41:16)+"公開講演予定表0415.pdf"
+$path:=System folder:C487(Desktop:K41:16)+"test.pdf"
 
 $params:=New object:C1471("gray";True:C214)
 

@@ -22,7 +22,7 @@
 			}
 		},
 		"update_manifest_json": {
-			"timeStamp": "2019-12-13T04:37:40.619Z",
+			"timeStamp": "2019-12-13T04:37:40.000Z",
 			"attributes": {
 				"invisible": true,
 				"preemptive": "capable"
@@ -36,10 +36,10 @@
 			}
 		},
 		"TEST": {
-			"timeStamp": "2020-04-19T13:49:46.049Z"
+			"timeStamp": "2020-04-19T13:54:10.000Z"
 		},
 		"generate_project": {
-			"timeStamp": "2020-04-18T15:39:29.880Z"
+			"timeStamp": "2020-04-18T15:39:29.000Z"
 		},
 		"generate_project_vs": {
 			"timeStamp": "2019-07-24T08:49:03.000Z",
