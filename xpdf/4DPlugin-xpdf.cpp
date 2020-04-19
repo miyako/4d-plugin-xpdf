@@ -23,7 +23,9 @@ void PluginMain(PA_long32 selector, PA_PluginParameters params) {
             case 1 :
                 XPDF_Get_text(params);
                 break;
-                
+            case 2 :
+                XPDF_Get_images(params);
+                break;
         }
         
     }
@@ -171,12 +173,6 @@ void XPDF_Get_text(PA_PluginParameters params) {
     TextOutputControl textOutControl;
     TextOutputDev *textOut;
     UnicodeMap *uMap;
-
-
-    int exitCode;
-        
-    exitCode = 99;
-        
     
     globalParams = new GlobalParams("");
     globalParams->setTextEncoding("UTF-8");
@@ -256,8 +252,6 @@ void XPDF_Get_text(PA_PluginParameters params) {
                 } else {
 
                     ob_set_s(options, L"errorMessage", "failed to create output");
-                    
-                    delete textOut;
 
                 }
                 
@@ -275,6 +269,352 @@ void XPDF_Get_text(PA_PluginParameters params) {
         delete doc;
         uMap->decRefCnt();
     }
+    
+    delete globalParams;
+    
+    ob_set_b(status, L"success", false);
+    
+    PA_ReturnObject(params, status);
+}
+
+void write_data_fn(png_structp png_ptr, png_bytep buf, png_size_t size) {
+    C_BLOB *blob = (C_BLOB *)png_get_io_ptr(png_ptr);
+    blob->addBytes((const uint8_t *)buf, (uint32_t)size);
+}
+
+void output_flush_fn(png_structp png_ptr)
+{
+    
+}
+
+static void writePNGData(png_structp png, SplashBitmap *bitmap, GBool pngAlpha) {
+    
+  Guchar *p, *alpha, *rowBuf, *rowBufPtr;
+  int y, x;
+
+  if (setjmp(png_jmpbuf(png))) {
+    exit(2);
+  }
+  p = bitmap->getDataPtr();
+    
+  if (pngAlpha) {
+    alpha = bitmap->getAlphaPtr();
+    if (bitmap->getMode() == splashModeMono8) {
+      rowBuf = (Guchar *)gmallocn(bitmap->getWidth(), 2);
+      for (y = 0; y < bitmap->getHeight(); ++y) {
+    rowBufPtr = rowBuf;
+    for (x = 0; x < bitmap->getWidth(); ++x) {
+      *rowBufPtr++ = *p++;
+      *rowBufPtr++ = *alpha++;
+    }
+    png_write_row(png, (png_bytep)rowBuf);
+      }
+      gfree(rowBuf);
+    } else { // splashModeRGB8
+      rowBuf = (Guchar *)gmallocn(bitmap->getWidth(), 4);
+      for (y = 0; y < bitmap->getHeight(); ++y) {
+    rowBufPtr = rowBuf;
+    for (x = 0; x < bitmap->getWidth(); ++x) {
+      *rowBufPtr++ = *p++;
+      *rowBufPtr++ = *p++;
+      *rowBufPtr++ = *p++;
+      *rowBufPtr++ = *alpha++;
+    }
+    png_write_row(png, (png_bytep)rowBuf);
+      }
+      gfree(rowBuf);
+    }
+  } else {
+    for (y = 0; y < bitmap->getHeight(); ++y) {
+      png_write_row(png, (png_bytep)p);
+      p += bitmap->getRowSize();
+    }
+  }
+}
+
+static BOOL setupPNG(png_structp *png,
+                     png_infop *pngInfo,
+                     C_BLOB *f,
+                     int bitDepth,
+                     int colorType,
+                     double res,
+                     SplashBitmap *bitmap) {
+    
+    png_color_16 background;
+    
+    int pixelsPerMeter;
+        
+    *png = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+    
+    if(*png != NULL) {
+        
+        *pngInfo = png_create_info_struct(*png);
+        
+        if(*pngInfo != NULL) {
+            
+            if(setjmp(png_jmpbuf(*png))) {
+                png_destroy_write_struct(png, pngInfo);
+            }else{
+         
+                  if (colorType == PNG_COLOR_TYPE_GRAY_ALPHA ||
+                      colorType == PNG_COLOR_TYPE_RGB_ALPHA) {
+                    background.index = 0;
+                    background.red = 0xff;
+                    background.green = 0xff;
+                    background.blue = 0xff;
+                    background.gray = 0xff;
+                    png_set_bKGD(*png, *pngInfo, &background);
+                  }
+                
+                png_set_write_fn(*png, (png_voidp)f, write_data_fn, output_flush_fn);
+                
+                png_set_IHDR(*png, *pngInfo,
+                             bitmap->getWidth(), bitmap->getHeight(),
+                             bitDepth, colorType, PNG_INTERLACE_NONE,
+                             PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
+
+                pixelsPerMeter = (int)(res * (1000 / 25.4) + 0.5);
+                
+                png_set_pHYs(*png, *pngInfo,
+                pixelsPerMeter,
+                pixelsPerMeter,
+                PNG_RESOLUTION_METER);
+                
+                png_write_info(*png, *pngInfo);
+                
+                return TRUE;
+                
+            }
+        }
+    }
+    
+    return FALSE;
+}
+    
+void XPDF_Get_images(PA_PluginParameters params) {
+    
+    PA_ObjectRef status = PA_CreateObject();
+    
+    PA_ObjectRef options = PA_GetObjectParameter(params, 2);
+    
+    ob_set_b(status, L"success", false);
+    
+    PackagePtr pParams = (PackagePtr)params->fParameters;
+    
+    C_TEXT Param1;
+    Param1.fromParamAtIndex(pParams, 1);
+    CUTF8String filePath;
+    Param1.copyPath(&filePath);
+    
+    int firstPage = 1;
+    int lastPage  = 0;
+            
+    GString *ownerPW = NULL;
+    GString *userPW  = NULL;
+    
+    double resolution = 150;
+        
+    /* mono and gray are mutually exclusive */
+    
+    GBool mono = gFalse;
+    GBool gray = gFalse;
+    
+    /* mono and alpha are mutually exclusive */
+    
+    GBool pngAlpha = gFalse;
+        
+    if(options){
+
+        CUTF8String _layout, _ownerPassword, _userPassword;
+        
+        if(ob_is_defined(options, L"start")) {
+            
+            int _firstPage = ob_get_n(options, L"start");
+            if(_firstPage > 0) {
+                firstPage = _firstPage;
+            }
+        }
+        
+        if(ob_is_defined(options, L"end")) {
+            
+            lastPage = ob_get_n(options, L"end");
+
+        }
+        
+        if(ob_is_defined(options, L"mono")) {
+            mono = ob_get_b(options, L"mono");
+        }
+        
+        if(!mono) {
+            if(ob_is_defined(options, L"alpha")) {
+                pngAlpha = ob_get_b(options, L"alpha");
+            }
+
+            if(ob_is_defined(options, L"gray")) {
+                gray = ob_get_b(options, L"gray");
+            }
+
+            if(ob_is_defined(options, L"grey")) {
+                gray = ob_get_b(options, L"grey");
+            }
+        }
+                
+        if(ob_get_s(options, L"ownerPassword", &_ownerPassword)) {
+            ownerPW = new GString((const char *)_ownerPassword.c_str());
+        }
+        
+        if(ob_get_s(options, L"userPassword",  &_userPassword)) {
+            userPW  = new GString((const char *)_userPassword.c_str());
+        }
+        
+    }
+    
+    PDFDoc *doc;
+    
+    globalParams = new GlobalParams("");
+    globalParams->setupBaseFonts(NULL);
+    
+    doc = new PDFDoc((char *)filePath.c_str(), ownerPW, userPW);
+    
+    if (userPW) {
+        delete userPW;
+    }
+    
+    if (ownerPW) {
+        delete ownerPW;
+    }
+    
+    if (doc->isOk()) {
+        
+        if (doc->okToCopy()) {
+            
+            if (lastPage < 1 || lastPage > doc->getNumPages()) {
+                lastPage = doc->getNumPages();
+            }
+            
+            SplashOutputDev *splashOut;
+            
+            SplashColor paperColor;
+            
+            if (mono) {
+                paperColor[0] = 0xff;
+                splashOut = new SplashOutputDev(splashModeMono1, 1, gFalse, paperColor);
+            } else if (gray) {
+                paperColor[0] = 0xff;
+                splashOut = new SplashOutputDev(splashModeMono8, 1, gFalse, paperColor);
+            } else {
+                paperColor[0] = paperColor[1] = paperColor[2] = 0xff;
+                splashOut = new SplashOutputDev(splashModeRGB8, 1, gFalse, paperColor);
+            }
+            if (pngAlpha) {
+                splashOut->setNoComposite(gTrue);
+            }
+
+            splashOut->startDoc(doc->getXRef());
+            
+            PA_CollectionRef images = PA_CreateCollection();
+            
+            for (int pg = firstPage; pg <= lastPage; ++pg) {
+                
+                doc->displayPage(splashOut, pg,
+                                 resolution,
+                                 resolution,
+                                 0,
+                                 gFalse, gTrue, gFalse);
+                
+                C_BLOB pngBuf;
+                
+                png_structp png;
+                png_infop pngInfo;
+                
+                if (mono) {
+
+                    if(setupPNG(&png,
+                                &pngInfo,
+                                &pngBuf,
+                                1,
+                                PNG_COLOR_TYPE_GRAY,
+                                resolution,
+                                splashOut->getBitmap())) {
+                        
+                        writePNGData(png, splashOut->getBitmap(), pngAlpha);
+                                                
+                        png_write_end(png, pngInfo);
+                        png_destroy_write_struct(&png, &pngInfo);
+                        
+                        PA_Picture image = PA_CreatePicture((void *)pngBuf.getBytesPtr(), pngBuf.getBytesLength());
+                        
+                        PA_Variable v = PA_CreateVariable(eVK_Picture);
+                        PA_SetPictureVariable(&v, image);
+                        PA_SetCollectionElement(images, PA_GetCollectionLength(images), v);
+                        PA_ClearVariable(&v);
+                        
+                    }
+                    
+                }
+                
+                else if (gray) {
+                    
+                    setupPNG(&png,
+                             &pngInfo,
+                             &pngBuf,
+                             8,
+                             pngAlpha ? PNG_COLOR_TYPE_GRAY_ALPHA : PNG_COLOR_TYPE_GRAY,
+                             resolution,
+                             splashOut->getBitmap());
+                    
+                    writePNGData(png, splashOut->getBitmap(), pngAlpha);
+                    
+                    png_write_end(png, pngInfo);
+                    png_destroy_write_struct(&png, &pngInfo);
+                    
+                    PA_Picture image = PA_CreatePicture((void *)pngBuf.getBytesPtr(), pngBuf.getBytesLength());
+                    
+                    PA_Variable v = PA_CreateVariable(eVK_Picture);
+                    PA_SetPictureVariable(&v, image);
+                    PA_SetCollectionElement(images, PA_GetCollectionLength(images), v);
+                    PA_ClearVariable(&v);
+                    
+                } else { // RGB
+                    
+                    setupPNG(&png,
+                             &pngInfo,
+                             &pngBuf,
+                             8,
+                             pngAlpha ? PNG_COLOR_TYPE_RGB_ALPHA : PNG_COLOR_TYPE_RGB,
+                             resolution,
+                             splashOut->getBitmap());
+                    
+                    writePNGData(png, splashOut->getBitmap(), pngAlpha);
+                    
+                    png_write_end(png, pngInfo);
+                    png_destroy_write_struct(&png, &pngInfo);
+                    
+                    PA_Picture image = PA_CreatePicture((void *)pngBuf.getBytesPtr(), pngBuf.getBytesLength());
+                    
+                    PA_Variable v = PA_CreateVariable(eVK_Picture);
+                    PA_SetPictureVariable(&v, image);
+                    PA_SetCollectionElement(images, PA_GetCollectionLength(images), v);
+                    PA_ClearVariable(&v);
+            
+                }
+            }
+
+            ob_set_c(status, L"images", images);
+            ob_set_b(status, L"success", true);
+            
+            delete splashOut;
+            
+        }else{
+            ob_set_s(options, L"errorMessage", "copy is not allowed");
+        }
+        
+    }else{
+        ob_set_n(options, L"error", doc->getErrorCode());
+        ob_set_s(options, L"errorMessage", "failed to open pdf");
+    }
+    
+    delete doc;
     
     delete globalParams;
     

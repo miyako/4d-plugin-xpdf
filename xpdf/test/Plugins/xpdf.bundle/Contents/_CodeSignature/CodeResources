@@ -4,15 +4,23 @@
 <dict>
 	<key>files</key>
 	<dict>
+		<key>Resources/COPYING (xpdf)</key>
+		<data>
+		hiS82uVbru8AzRHV38+mD2hxCgI=
+		</data>
 		<key>Resources/English.lproj/InfoPlist.strings</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			2gw1XM14mdzeCffYD+4+GX/peHk=
+			6W2IHH4BBQw2SIfNlFwID36+W+o=
 			</data>
 			<key>optional</key>
 			<true/>
 		</dict>
+		<key>Resources/README (xpdf)</key>
+		<data>
+		2EVQk6IR4LB7a0qQjz3t3yxDw80=
+		</data>
 		<key>Resources/constants.xlf</key>
 		<data>
 		elDRjnGVwHX85LHqaMSiE98uKEo=
@@ -31,18 +39,40 @@
 			nGfrvibB5KlzvZgF4Bra+l0HpRloxismgTLePnOwCdk=
 			</data>
 		</dict>
+		<key>Resources/COPYING (xpdf)</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			hiS82uVbru8AzRHV38+mD2hxCgI=
+			</data>
+			<key>hash2</key>
+			<data>
+			jOtLnuWt7d5Hsx6XXB2QxzrSe2sWWh3NgMfFRetluQM=
+			</data>
+		</dict>
 		<key>Resources/English.lproj/InfoPlist.strings</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			2gw1XM14mdzeCffYD+4+GX/peHk=
+			6W2IHH4BBQw2SIfNlFwID36+W+o=
 			</data>
 			<key>hash2</key>
 			<data>
-			ITxVY3jpkpMyGBLprwPUy/rxEoYK0WkSNbYds0fb8pU=
+			7Bvs1WzDd3A0XrgN25e2Wh7GvKd4j/cZoH7OfYeJqKY=
 			</data>
 			<key>optional</key>
 			<true/>
+		</dict>
+		<key>Resources/README (xpdf)</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			2EVQk6IR4LB7a0qQjz3t3yxDw80=
+			</data>
+			<key>hash2</key>
+			<data>
+			dVvs4NVMayEk9y9QYQzbxkAxsof7mCM9lFYkHwsENZw=
+			</data>
 		</dict>
 		<key>Resources/constants.xlf</key>
 		<dict>
@@ -59,29 +89,29 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			hL9gqzB1pAgChKZ1uj+Jqt43yxs=
+			WojTO0tXv2jetaNCDG4+WZbJqSI=
 			</data>
 			<key>hash2</key>
 			<data>
-			ZCCEqtPmUM+2iJDxTvuZrd5mchV7dH5Z4RZvNF7YQT0=
+			C9TLwLtgD2gtHYdNwP37rdlMTGn7DCU+AuGVkKxTuBM=
 			</data>
 		</dict>
 		<key>Windows64/xpdf.4DX</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			zvoZ7ULt+O/aKx6NzgaqTillGNg=
+			GTcT6095fPW0hDxEBSyBTHA0U+o=
 			</data>
 			<key>hash2</key>
 			<data>
-			xZ0isPdvytfz/ISMhvmTet0RKxwRCg6HeDepN7N2icI=
+			Nncp2YPh+MWkQLv6PdVEvZ26nxvApRhoUaXk4PeePVY=
 			</data>
 		</dict>
 		<key>manifest.json</key>
 		<dict>
 			<key>cdhash</key>
 			<data>
-			cvrnZ6pHNL8+++uXSjyofJaXiJY=
+			yqo4UVaBB3OuPQ2oNvMyDOypqEk=
 			</data>
 			<key>requirement</key>
 			<string>identifier manifest and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = Y69CWUC25B</string>

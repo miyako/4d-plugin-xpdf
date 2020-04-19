@@ -9,6 +9,7 @@
     <ClCompile Include="4D Plugin API\Classes\C_TEXT.cpp" />
     <ClCompile Include="support\4DPlugin-JSON.cpp" />
     <ClCompile Include="include\xpdf\TextOutputDev.cc" />
+    <ClCompile Include="include\xpdf\SplashOutputDev.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="4D Plugin API\4DPluginAPI.h">
@@ -31,6 +32,7 @@
     <ClInclude Include="4D Plugin API\Classes\C_TEXT.h" />
     <ClInclude Include="support\4DPlugin-JSON.h" />
     <ClInclude Include="include\xpdf\TextOutputDev.h" />
+    <ClInclude Include="include\xpdf\Error.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="4D Plugin API">

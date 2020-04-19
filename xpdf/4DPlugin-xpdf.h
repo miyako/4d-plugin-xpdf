@@ -38,15 +38,25 @@
 #include "Catalog.h"
 #include "Page.h"
 #include "PDFDoc.h"
+#include "Error.h"
+#include "config.h"
+
 #include "TextOutputDev.h"
+#include "ImageOutputDev.h"
 #include "CharTypes.h"
 #include "UnicodeMap.h"
 #include "TextString.h"
-#include "Error.h"
-#include "config.h"
+
+
+#include "SplashBitmap.h"
+#include "Splash.h"
+#include "SplashOutputDev.h"
+
+#include "png.h"
 
 #pragma mark -
 
 static void XPDF_Get_text(PA_PluginParameters params);
+static void XPDF_Get_images(PA_PluginParameters params);
 
 #endif /* PLUGIN_XPDF_H */

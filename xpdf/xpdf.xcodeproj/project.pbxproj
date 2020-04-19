@@ -34,6 +34,9 @@
 		D130064F12F02D9700702C0E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D130064E12F02D9700702C0E /* Cocoa.framework */; };
 		D13116A91A03ACB700DE1322 /* 4DPluginAPI.c in Sources */ = {isa = PBXBuildFile; fileRef = D13116A81A03ACB700DE1322 /* 4DPluginAPI.c */; settings = {COMPILER_FLAGS = "-Wno-multichar"; }; };
 		D134D4AC1A030BA0008D14EF /* manifest.json in CopyFiles */ = {isa = PBXBuildFile; fileRef = D134D4A91A030B06008D14EF /* manifest.json */; };
+		D154A06B244C32A00080A92D /* ImageOutputDev.cc in Sources */ = {isa = PBXBuildFile; fileRef = D154A06A244C32A00080A92D /* ImageOutputDev.cc */; };
+		D1EE1923244C7895001504DA /* SplashOutputDev.cc in Sources */ = {isa = PBXBuildFile; fileRef = D1EE1922244C7895001504DA /* SplashOutputDev.cc */; };
+		D1EE1925244C79F4001504DA /* libsplash.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D1EE1924244C79F4001504DA /* libsplash.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -80,6 +83,9 @@
 		D13116A81A03ACB700DE1322 /* 4DPluginAPI.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = 4DPluginAPI.c; sourceTree = "<group>"; };
 		D134D4A91A030B06008D14EF /* manifest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = manifest.json; sourceTree = "<group>"; };
 		D14D10DD1A03A8A5008B3411 /* constants.xlf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = constants.xlf; sourceTree = "<group>"; };
+		D154A06A244C32A00080A92D /* ImageOutputDev.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = ImageOutputDev.cc; path = include/xpdf/ImageOutputDev.cc; sourceTree = "<group>"; };
+		D1EE1922244C7895001504DA /* SplashOutputDev.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = SplashOutputDev.cc; path = include/xpdf/SplashOutputDev.cc; sourceTree = "<group>"; };
+		D1EE1924244C79F4001504DA /* libsplash.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsplash.a; path = a/libsplash.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +93,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D1EE1925244C79F4001504DA /* libsplash.a in Frameworks */,
 				D1176C59244B5A1C0083ABAC /* libbz2.tbd in Frameworks */,
 				D1176C56244B5A080083ABAC /* libexpat.a in Frameworks */,
 				D1176C57244B5A080083ABAC /* libpng16.a in Frameworks */,
@@ -107,6 +114,8 @@
 			isa = PBXGroup;
 			children = (
 				D1176C4C244B58FF0083ABAC /* TextOutputDev.cc */,
+				D154A06A244C32A00080A92D /* ImageOutputDev.cc */,
+				D1EE1922244C7895001504DA /* SplashOutputDev.cc */,
 				D1176C5F244BC5A00083ABAC /* C_TEXT.cpp */,
 				D1176C5E244BC5A00083ABAC /* C_TEXT.h */,
 				D1176C63244BCC6B0083ABAC /* C_BLOB.cpp */,
@@ -183,6 +192,7 @@
 		D16FBB3C22A4C07E008F0416 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D1EE1924244C79F4001504DA /* libsplash.a */,
 				D1176C58244B5A1C0083ABAC /* libbz2.tbd */,
 				D1176C54244B5A080083ABAC /* libexpat.a */,
 				D1176C55244B5A080083ABAC /* libpng16.a */,
@@ -317,10 +327,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				D1176C65244BCC6B0083ABAC /* C_BLOB.cpp in Sources */,
+				D1EE1923244C7895001504DA /* SplashOutputDev.cc in Sources */,
 				D1176C5D244BBD8E0083ABAC /* 4DPlugin-JSON.cpp in Sources */,
 				D1176C61244BC5A00083ABAC /* C_TEXT.cpp in Sources */,
 				18B684FF06944F8800CC6A1E /* 4DPlugin-xpdf.cpp in Sources */,
 				D1176C4D244B58FF0083ABAC /* TextOutputDev.cc in Sources */,
+				D154A06B244C32A00080A92D /* ImageOutputDev.cc in Sources */,
 				D13116A91A03ACB700DE1322 /* 4DPluginAPI.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -374,7 +386,7 @@
 					"$(PROJECT_DIR)/a",
 				);
 				LIBRARY_STYLE = Bundle;
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.1.0;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -425,7 +437,7 @@
 					"$(PROJECT_DIR)/a",
 				);
 				LIBRARY_STYLE = Bundle;
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.1.0;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -474,7 +486,7 @@
 					"$(PROJECT_DIR)/a",
 				);
 				LIBRARY_STYLE = Bundle;
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.1.0;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -530,7 +542,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				OBJROOT = "$(SRCROOT)/build";
 				SDKROOT = macosx;
 				SYMROOT = "$(SRCROOT)/test/Plugins";
@@ -575,7 +587,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				OBJROOT = "$(SRCROOT)/build";
 				SDKROOT = macosx;
 				SYMROOT = "$(SRCROOT)/test/Plugins";
@@ -620,7 +632,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				SDKROOT = macosx;
 				SYMROOT = "$(SRCROOT)/test/Plugins";
 			};
