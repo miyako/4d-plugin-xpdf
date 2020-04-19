@@ -1,0 +1,11 @@
+{
+    "name": "xpdf",
+    "id": 20000,
+    "commands": [
+        {
+            "theme": "xpdf",
+            "syntax": "XPDF Get text(&T;&J):J",
+            "threadSafe": true
+        }
+    ]
+}
