@@ -1,5 +1,5 @@
 # 4d-plugin-xpdf
-Xpdf
+PDF tools based on [Xpdf](https://www.xpdfreader.com/opensource.html).
 
 #### Notes
 
