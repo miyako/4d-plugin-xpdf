@@ -6,9 +6,15 @@
             "theme": "xpdf",
             "syntax": "XPDF Get text(&T;&J):J",
             "threadSafe": true
-        },        {
+        },
+        {
             "theme": "xpdf",
             "syntax": "XPDF Get images(&T;&J):J",
+            "threadSafe": true
+        },
+        {
+            "theme": "xpdf",
+            "syntax": "XPDF Get info(&T;&J):J",
             "threadSafe": true
         }
     ]

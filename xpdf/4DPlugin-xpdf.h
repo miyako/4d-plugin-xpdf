@@ -47,10 +47,12 @@
 #include "UnicodeMap.h"
 #include "TextString.h"
 
+#include "Zoox.h"
 
 #include "SplashBitmap.h"
 #include "Splash.h"
 #include "SplashOutputDev.h"
+#include "UTF8.h"
 
 #include "png.h"
 
@@ -58,5 +60,6 @@
 
 static void XPDF_Get_text(PA_PluginParameters params);
 static void XPDF_Get_images(PA_PluginParameters params);
+static void XPDF_Get_info(PA_PluginParameters params);
 
 #endif /* PLUGIN_XPDF_H */

@@ -26,6 +26,10 @@ void PluginMain(PA_long32 selector, PA_PluginParameters params) {
             case 2 :
                 XPDF_Get_images(params);
                 break;
+            case 3 :
+                XPDF_Get_info(params);
+                break;
+
         }
         
     }
@@ -44,6 +48,122 @@ static void write_to_stream(void *stream, const char *text, int len) {
     buf->addBytes((const uint8_t *)text, len);
     
 }
+
+void write_data_fn(png_structp png_ptr, png_bytep buf, png_size_t size) {
+    C_BLOB *blob = (C_BLOB *)png_get_io_ptr(png_ptr);
+    blob->addBytes((const uint8_t *)buf, (uint32_t)size);
+}
+
+void output_flush_fn(png_structp png_ptr)
+{
+    
+}
+
+static void writePNGData(png_structp png, SplashBitmap *bitmap, GBool pngAlpha) {
+    
+  Guchar *p, *alpha, *rowBuf, *rowBufPtr;
+  int y, x;
+
+  if (setjmp(png_jmpbuf(png))) {
+    exit(2);
+  }
+  p = bitmap->getDataPtr();
+    
+  if (pngAlpha) {
+    alpha = bitmap->getAlphaPtr();
+    if (bitmap->getMode() == splashModeMono8) {
+      rowBuf = (Guchar *)gmallocn(bitmap->getWidth(), 2);
+      for (y = 0; y < bitmap->getHeight(); ++y) {
+    rowBufPtr = rowBuf;
+    for (x = 0; x < bitmap->getWidth(); ++x) {
+      *rowBufPtr++ = *p++;
+      *rowBufPtr++ = *alpha++;
+    }
+    png_write_row(png, (png_bytep)rowBuf);
+      }
+      gfree(rowBuf);
+    } else { // splashModeRGB8
+      rowBuf = (Guchar *)gmallocn(bitmap->getWidth(), 4);
+      for (y = 0; y < bitmap->getHeight(); ++y) {
+    rowBufPtr = rowBuf;
+    for (x = 0; x < bitmap->getWidth(); ++x) {
+      *rowBufPtr++ = *p++;
+      *rowBufPtr++ = *p++;
+      *rowBufPtr++ = *p++;
+      *rowBufPtr++ = *alpha++;
+    }
+    png_write_row(png, (png_bytep)rowBuf);
+      }
+      gfree(rowBuf);
+    }
+  } else {
+    for (y = 0; y < bitmap->getHeight(); ++y) {
+      png_write_row(png, (png_bytep)p);
+      p += bitmap->getRowSize();
+    }
+  }
+}
+
+static BOOL setupPNG(png_structp *png,
+                     png_infop *pngInfo,
+                     C_BLOB *f,
+                     int bitDepth,
+                     int colorType,
+                     double res,
+                     SplashBitmap *bitmap) {
+    
+    png_color_16 background;
+    
+    int pixelsPerMeter;
+        
+    *png = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+    
+    if(*png != NULL) {
+        
+        *pngInfo = png_create_info_struct(*png);
+        
+        if(*pngInfo != NULL) {
+            
+            if(setjmp(png_jmpbuf(*png))) {
+                png_destroy_write_struct(png, pngInfo);
+            }else{
+         
+                  if (colorType == PNG_COLOR_TYPE_GRAY_ALPHA ||
+                      colorType == PNG_COLOR_TYPE_RGB_ALPHA) {
+                    background.index = 0;
+                    background.red = 0xff;
+                    background.green = 0xff;
+                    background.blue = 0xff;
+                    background.gray = 0xff;
+                    png_set_bKGD(*png, *pngInfo, &background);
+                  }
+                
+                png_set_write_fn(*png, (png_voidp)f, write_data_fn, output_flush_fn);
+                
+                png_set_IHDR(*png, *pngInfo,
+                             bitmap->getWidth(), bitmap->getHeight(),
+                             bitDepth, colorType, PNG_INTERLACE_NONE,
+                             PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
+
+                pixelsPerMeter = (int)(res * (1000 / 25.4) + 0.5);
+                
+                png_set_pHYs(*png, *pngInfo,
+                pixelsPerMeter,
+                pixelsPerMeter,
+                PNG_RESOLUTION_METER);
+                
+                png_write_info(*png, *pngInfo);
+                
+                return TRUE;
+                
+            }
+        }
+    }
+    
+    return FALSE;
+}
+   
+#pragma mark -
 
 void XPDF_Get_text(PA_PluginParameters params) {
     
@@ -271,126 +391,10 @@ void XPDF_Get_text(PA_PluginParameters params) {
     }
     
     delete globalParams;
-    
-    ob_set_b(status, L"success", false);
-    
+        
     PA_ReturnObject(params, status);
 }
 
-void write_data_fn(png_structp png_ptr, png_bytep buf, png_size_t size) {
-    C_BLOB *blob = (C_BLOB *)png_get_io_ptr(png_ptr);
-    blob->addBytes((const uint8_t *)buf, (uint32_t)size);
-}
-
-void output_flush_fn(png_structp png_ptr)
-{
-    
-}
-
-static void writePNGData(png_structp png, SplashBitmap *bitmap, GBool pngAlpha) {
-    
-  Guchar *p, *alpha, *rowBuf, *rowBufPtr;
-  int y, x;
-
-  if (setjmp(png_jmpbuf(png))) {
-    exit(2);
-  }
-  p = bitmap->getDataPtr();
-    
-  if (pngAlpha) {
-    alpha = bitmap->getAlphaPtr();
-    if (bitmap->getMode() == splashModeMono8) {
-      rowBuf = (Guchar *)gmallocn(bitmap->getWidth(), 2);
-      for (y = 0; y < bitmap->getHeight(); ++y) {
-    rowBufPtr = rowBuf;
-    for (x = 0; x < bitmap->getWidth(); ++x) {
-      *rowBufPtr++ = *p++;
-      *rowBufPtr++ = *alpha++;
-    }
-    png_write_row(png, (png_bytep)rowBuf);
-      }
-      gfree(rowBuf);
-    } else { // splashModeRGB8
-      rowBuf = (Guchar *)gmallocn(bitmap->getWidth(), 4);
-      for (y = 0; y < bitmap->getHeight(); ++y) {
-    rowBufPtr = rowBuf;
-    for (x = 0; x < bitmap->getWidth(); ++x) {
-      *rowBufPtr++ = *p++;
-      *rowBufPtr++ = *p++;
-      *rowBufPtr++ = *p++;
-      *rowBufPtr++ = *alpha++;
-    }
-    png_write_row(png, (png_bytep)rowBuf);
-      }
-      gfree(rowBuf);
-    }
-  } else {
-    for (y = 0; y < bitmap->getHeight(); ++y) {
-      png_write_row(png, (png_bytep)p);
-      p += bitmap->getRowSize();
-    }
-  }
-}
-
-static BOOL setupPNG(png_structp *png,
-                     png_infop *pngInfo,
-                     C_BLOB *f,
-                     int bitDepth,
-                     int colorType,
-                     double res,
-                     SplashBitmap *bitmap) {
-    
-    png_color_16 background;
-    
-    int pixelsPerMeter;
-        
-    *png = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
-    
-    if(*png != NULL) {
-        
-        *pngInfo = png_create_info_struct(*png);
-        
-        if(*pngInfo != NULL) {
-            
-            if(setjmp(png_jmpbuf(*png))) {
-                png_destroy_write_struct(png, pngInfo);
-            }else{
-         
-                  if (colorType == PNG_COLOR_TYPE_GRAY_ALPHA ||
-                      colorType == PNG_COLOR_TYPE_RGB_ALPHA) {
-                    background.index = 0;
-                    background.red = 0xff;
-                    background.green = 0xff;
-                    background.blue = 0xff;
-                    background.gray = 0xff;
-                    png_set_bKGD(*png, *pngInfo, &background);
-                  }
-                
-                png_set_write_fn(*png, (png_voidp)f, write_data_fn, output_flush_fn);
-                
-                png_set_IHDR(*png, *pngInfo,
-                             bitmap->getWidth(), bitmap->getHeight(),
-                             bitDepth, colorType, PNG_INTERLACE_NONE,
-                             PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
-
-                pixelsPerMeter = (int)(res * (1000 / 25.4) + 0.5);
-                
-                png_set_pHYs(*png, *pngInfo,
-                pixelsPerMeter,
-                pixelsPerMeter,
-                PNG_RESOLUTION_METER);
-                
-                png_write_info(*png, *pngInfo);
-                
-                return TRUE;
-                
-            }
-        }
-    }
-    
-    return FALSE;
-}
-    
 void XPDF_Get_images(PA_PluginParameters params) {
     
     PA_ObjectRef status = PA_CreateObject();
@@ -470,9 +474,8 @@ void XPDF_Get_images(PA_PluginParameters params) {
     }
     
     PDFDoc *doc;
-    
+        
     globalParams = new GlobalParams("");
-    globalParams->setupBaseFonts(NULL);
     
     doc = new PDFDoc((char *)filePath.c_str(), ownerPW, userPW);
     
@@ -614,11 +617,578 @@ void XPDF_Get_images(PA_PluginParameters params) {
         ob_set_s(options, L"errorMessage", "failed to open pdf");
     }
     
-    delete doc;
-    
     delete globalParams;
     
+    delete doc;
+            
+    PA_ReturnObject(params, status);
+}
+
+static GString *parseInfoDate(GString *s) {
+    
+  int year, mon, day, hour, min, sec, n;
+  struct tm tmStruct;
+  char buf[256];
+  char *p;
+
+  p = s->getCString();
+  if (p[0] == 'D' && p[1] == ':') {
+    p += 2;
+  }
+  if ((n = sscanf(p, "%4d%2d%2d%2d%2d%2d",
+          &year, &mon, &day, &hour, &min, &sec)) < 1) {
+    return NULL;
+  }
+  switch (n) {
+  case 1: mon = 1;
+  case 2: day = 1;
+  case 3: hour = 0;
+  case 4: min = 0;
+  case 5: sec = 0;
+  }
+  tmStruct.tm_year = year - 1900;
+  tmStruct.tm_mon = mon - 1;
+  tmStruct.tm_mday = day;
+  tmStruct.tm_hour = hour;
+  tmStruct.tm_min = min;
+  tmStruct.tm_sec = sec;
+  tmStruct.tm_wday = -1;
+  tmStruct.tm_yday = -1;
+  tmStruct.tm_isdst = -1;
+  // compute the tm_wday and tm_yday fields
+  if (!(mktime(&tmStruct) != (time_t)-1 &&
+    strftime(buf, sizeof(buf), "%c", &tmStruct))) {
+    return NULL;
+  }
+  return new GString(buf);
+}
+
+static GString *parseXMPDate(GString *s) {
+    
+  int year, mon, day, hour, min, sec, tz;
+  struct tm tmStruct;
+  char buf[256];
+  char *p;
+
+  p = s->getCString();
+  if (isdigit(p[0]) && isdigit(p[1]) && isdigit(p[2]) && isdigit(p[3])) {
+    buf[0] = p[0];
+    buf[1] = p[1];
+    buf[2] = p[2];
+    buf[3] = p[3];
+    buf[4] = '\0';
+    year = atoi(buf);
+    p += 4;
+  } else {
+    return NULL;
+  }
+  mon = day = 1;
+  hour = min = sec = 0;
+  tz = 2000;
+  if (p[0] == '-' && isdigit(p[1]) && isdigit(p[2])) {
+    buf[0] = p[1];
+    buf[1] = p[2];
+    buf[2] = '\0';
+    mon = atoi(buf);
+    p += 3;
+    if (p[0] == '-' && isdigit(p[1]) && isdigit(p[2])) {
+      buf[0] = p[1];
+      buf[1] = p[2];
+      buf[2] = '\0';
+      day = atoi(buf);
+      p += 3;
+      if (p[0] == 'T' && isdigit(p[1]) && isdigit(p[2]) &&
+      p[3] == ':' && isdigit(p[4]) && isdigit(p[5])) {
+    buf[0] = p[1];
+    buf[1] = p[2];
+    buf[2] = '\0';
+    hour = atoi(buf);
+    buf[0] = p[4];
+    buf[1] = p[5];
+    buf[2] = '\0';
+    min = atoi(buf);
+    p += 6;
+    if (p[0] == ':' && isdigit(p[1]) && isdigit(p[2])) {
+      buf[0] = p[1];
+      buf[1] = p[2];
+      buf[2] = '\0';
+      sec = atoi(buf);
+      if (p[0] == '.' && isdigit(p[1])) {
+        p += 2;
+      }
+    }
+    if ((p[0] == '+' || p[0] == '-') &&
+        isdigit(p[1]) && isdigit(p[2]) && p[3] == ':' &&
+        isdigit(p[4]) && isdigit(p[5])) {
+      buf[0] = p[1];
+      buf[1] = p[2];
+      buf[2] = '\0';
+      tz = atoi(buf);
+      buf[0] = p[4];
+      buf[1] = p[5];
+      buf[2] = '\0';
+      tz = tz * 60 + atoi(buf);
+      tz = tz * 60;
+      if (p[0] == '-') {
+        tz = -tz;
+      }
+    }
+      }
+    }
+  }
+
+  tmStruct.tm_year = year - 1900;
+  tmStruct.tm_mon = mon - 1;
+  tmStruct.tm_mday = day;
+  tmStruct.tm_hour = hour;
+  tmStruct.tm_min = min;
+  tmStruct.tm_sec = sec;
+  tmStruct.tm_wday = -1;
+  tmStruct.tm_yday = -1;
+  tmStruct.tm_isdst = -1;
+  // compute the tm_wday and tm_yday fields
+  //~ this ignores the timezone
+  if (!(mktime(&tmStruct) != (time_t)-1 &&
+    strftime(buf, sizeof(buf), "%c", &tmStruct))) {
+    return NULL;
+  }
+  return new GString(buf);
+}
+
+static void printInfoString(PA_ObjectRef infoObj,
+                            Object *infoDict,
+                            const char *infoKey,
+                            ZxDoc *xmp,
+                            const char *xmpKey1,
+                            const char *xmpKey2,
+                            GBool parseDate,
+                            UnicodeMap *uMap) {
+    
+    GString *value = NULL;
+    char buf[8];
+    Object obj;
+    TextString *s;
+    Unicode *u;
+    int i, n;
+    
+    //-- check the info dictionary
+    if (infoDict->isDict()) {
+        
+        if (infoDict->dictLookup(infoKey, &obj)->isString()) {
+            
+            if (!parseDate || !(value = parseInfoDate(obj.getString()))) {
+                s = new TextString(obj.getString());
+                u = s->getUnicode();
+                value = new GString();
+                for (i = 0; i < s->getLength(); ++i) {
+                    n = uMap->mapUnicode(u[i], buf, sizeof(buf));
+                    value->append(buf, n);
+                }
+                delete s;
+            }
+        }
+        obj.free();
+    }
+    
+    ZxElement *rdf;
+    ZxElement *elem;
+    ZxNode *node;
+    ZxElement *child;
+    GString *tmp;
+    ZxNode *node2;
+    Unicode uu;
+    
+    //-- check the XMP metadata
+    
+    if (xmp) {
+        rdf = xmp->getRoot();
+        if (rdf->isElement("x:xmpmeta")) {
+            rdf = rdf->findFirstChildElement("rdf:RDF");
+        }
+        if (rdf && rdf->isElement("rdf:RDF")) {
+            for (node = rdf->getFirstChild(); node; node = node->getNextChild()) {
+                if (node->isElement("rdf:Description")) {
+                    if (!(elem = node->findFirstChildElement(xmpKey1)) && xmpKey2) {
+                        elem = node->findFirstChildElement(xmpKey2);
+                    }
+                    if (elem) {
+                        if ((child = elem->findFirstChildElement("rdf:Alt")) ||
+                            (child = elem->findFirstChildElement("rdf:Seq"))) {
+                            if ((node2 = child->findFirstChildElement("rdf:li"))) {
+                                node2 = node2->getFirstChild();
+                            }
+                        } else {
+                            node2 = elem->getFirstChild();
+                        }
+                        if (node2 && node2->isCharData()) {
+                            if (value) {
+                                delete value;
+                            }
+                            if (!parseDate ||
+                                !(value = parseXMPDate(((ZxCharData *)node2)->getData()))) {
+                                tmp = ((ZxCharData *)node2)->getData();
+                                int i = 0;
+                                value = new GString();
+                                while (getUTF8(tmp, &i, &uu)) {
+                                    n = uMap->mapUnicode(uu, buf, sizeof(buf));
+                                    value->append(buf, n);
+                                }
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    
+    if (value) {
+        
+        std::string v = std::string(value->getCString(), value->getLength());
+        
+        ob_set_s(infoObj, infoKey, v.c_str());
+        
+        delete value;
+    }
+    
+}
+
+void XPDF_Get_info(PA_PluginParameters params) {
+    
+    PA_ObjectRef status = PA_CreateObject();
+    
+    PA_ObjectRef options = PA_GetObjectParameter(params, 2);
+    
     ob_set_b(status, L"success", false);
+    
+    PackagePtr pParams = (PackagePtr)params->fParameters;
+    
+    C_TEXT Param1;
+    Param1.fromParamAtIndex(pParams, 1);
+    CUTF8String filePath;
+    Param1.copyPath(&filePath);
+    
+    int firstPage = 1;
+    int lastPage  = 0;
+            
+    GString *ownerPW = NULL;
+    GString *userPW  = NULL;
+    
+    GBool rawDates = gFalse;
+    
+    if(options){
+
+        CUTF8String _ownerPassword, _userPassword;
+        
+        if(ob_is_defined(options, L"start")) {
+            
+            int _firstPage = ob_get_n(options, L"start");
+            if(_firstPage > 0) {
+                firstPage = _firstPage;
+            }
+        }
+        
+        if(ob_is_defined(options, L"end")) {
+            
+            lastPage = ob_get_n(options, L"end");
+
+        }
+        
+        if(ob_is_defined(options, L"rawDates")) {
+            rawDates = ob_get_b(options, L"rawDates");
+        }
+        
+        if(ob_get_s(options, L"ownerPassword", &_ownerPassword)) {
+            ownerPW = new GString((const char *)_ownerPassword.c_str());
+        }
+        
+        if(ob_get_s(options, L"userPassword",  &_userPassword)) {
+            userPW  = new GString((const char *)_userPassword.c_str());
+        }
+        
+    }
+    
+    PDFDoc *doc;
+    UnicodeMap *uMap;
+    
+    globalParams = new GlobalParams("");
+    globalParams->setTextEncoding("UTF-8");
+
+    if ((uMap = globalParams->getTextEncoding())) {
+             
+        doc = new PDFDoc((char *)filePath.c_str(), ownerPW, userPW);
+        
+        if (userPW) {
+            delete userPW;
+        }
+        
+        if (ownerPW) {
+            delete ownerPW;
+        }
+        
+        if (doc->isOk()) {
+                            
+            if (lastPage < 1 || lastPage > doc->getNumPages()) {
+                lastPage = doc->getNumPages();
+            }
+            
+            Object info;
+            
+            doc->getDocInfo(&info);
+            
+            GString *metadata;
+            ZxDoc *xmp;
+            
+            if ((metadata = doc->readMetadata())) {
+                xmp = ZxDoc::loadMem(metadata->getCString(), metadata->getLength());
+            } else {
+                xmp = NULL;
+            }
+
+            PA_ObjectRef infoObj = PA_CreateObject();
+            
+            printInfoString(infoObj,
+                            &info,
+                            "Title",
+                            xmp,
+                            "dc:title",
+                            NULL,
+                            gFalse,
+                            uMap);
+           
+            printInfoString(infoObj,
+                            &info,
+                            "Subject",
+                            xmp,
+                            "dc:description",
+                            NULL,
+                            gFalse,
+                            uMap);
+            
+            printInfoString(infoObj,
+                            &info,
+                            "Keywords",
+                            xmp, "pdf:Keywords",
+                            NULL,
+                            gFalse,
+                            uMap);
+            
+            printInfoString(infoObj,
+                            &info,
+                            "Author",
+                            xmp,
+                            "dc:creator",
+                            NULL,
+                            gFalse,
+                            uMap);
+            
+            printInfoString(infoObj,
+                            &info,
+                            "Creator",
+                            xmp,
+                            "xmp:CreatorTool",
+                            NULL,
+                            gFalse,
+                            uMap);
+            
+            printInfoString(infoObj,
+                            &info,
+                            "Producer",
+                            xmp,
+                            "pdf:Producer",
+                            NULL,
+                            gFalse,
+                            uMap);
+            
+            printInfoString(infoObj,
+                            &info,
+                            "CreationDate",
+                            xmp,
+                            "xap:CreateDate",
+                            "xmp:CreateDate",
+                            !rawDates,
+                            uMap);
+            
+            printInfoString(infoObj,
+                            &info,
+                            "ModDate",
+                            xmp,
+                            "xap:ModifyDate",
+                            "xmp:ModifyDate",
+                            !rawDates,
+                            uMap);
+                        
+            info.free();
+            
+            if (xmp) {
+                delete xmp;
+            }
+            
+            ob_set_b(infoObj, L"isTagged", doc->getStructTreeRoot()->isDict());
+            
+            Object *acroForm;
+            Object xfa;
+            
+            // print form info
+            if ((acroForm = doc->getCatalog()->getAcroForm())->isDict()) {
+                acroForm->dictLookup("XFA", &xfa);
+                if (xfa.isStream() || xfa.isArray()) {
+                    if (doc->getCatalog()->getNeedsRendering()) {
+                        ob_set_s(infoObj, L"form", "dynamicXFA");
+                    } else {
+                        ob_set_s(infoObj, L"form", "staticXFA");
+                    }
+                } else {
+                    ob_set_s(infoObj, L"form", "AcroForm");
+                }
+                xfa.free();
+            } else {
+                ob_set_s(infoObj, L"form", "none");
+            }
+            
+            ob_set_n(infoObj, L"numPages", doc->getNumPages());
+            
+            if (doc->isEncrypted()) {
+                ob_set_b(infoObj, L"isEncrypted", true);
+                
+                ob_set_b(infoObj, L"okToPrint", doc->okToPrint(gTrue));
+                ob_set_b(infoObj, L"okToCopy", doc->okToCopy(gTrue));
+                ob_set_b(infoObj, L"okToChange", doc->okToChange(gTrue));
+                ob_set_b(infoObj, L"okToAddNotes", doc->okToAddNotes(gTrue));
+                
+            } else {
+                ob_set_b(infoObj, L"isEncrypted", false);
+            }
+        
+            int pg, i;
+            double w, h;
+            double wISO, hISO;
+            
+            // print page size
+        
+            PA_CollectionRef pages = PA_CreateCollection();
+            
+            for (pg = firstPage; pg <= lastPage; ++pg) {
+                
+                PA_ObjectRef page = PA_CreateObject();
+                
+                w = doc->getPageCropWidth(pg);
+                h = doc->getPageCropHeight(pg);
+                
+                ob_set_n(page, L"width",  w);
+                ob_set_n(page, L"height", h);
+                                
+                if ((fabs(w - 612) < 0.1 && fabs(h - 792) < 0.1) ||
+                    (fabs(w - 792) < 0.1 && fabs(h - 612) < 0.1)) {
+                    
+                    ob_set_s(page, L"paper", "letter");
+                    
+                } else {
+                    
+                    hISO = sqrt(sqrt(2.0)) * 7200 / 2.54;
+                    wISO = hISO / sqrt(2.0);
+                    
+                    for (i = 0; i <= 6; ++i) {
+                        
+                        if ((fabs(w - wISO) < 1 && fabs(h - hISO) < 1) ||
+                            (fabs(w - hISO) < 1 && fabs(h - wISO) < 1)) {
+                            
+                            std::vector<uint8_t> buf(3);
+                            
+                            #if VERSIONMAC
+                                    sprintf((char *)&buf[0], "A%d", i);
+                            #else
+                                    sprintf_s((char *)&buf[0], 20, "A%d", i);
+                            #endif
+                            
+                            ob_set_s(page, L"paper", (const char *)&buf[0]);
+
+                            break;
+                        }
+                        
+                        hISO = wISO;
+                        wISO /= sqrt(2.0);
+                    }
+                }
+                
+                ob_set_n(page, L"rotate",  doc->getPageRotate(pg));
+
+                Page * _page = doc->getCatalog()->getPage(pg);
+                
+                PDFRectangle *_mediaBox = _page->getMediaBox();
+                PDFRectangle *_cropBox  = _page->getCropBox();
+                PDFRectangle *_bleedBox = _page->getBleedBox();
+                PDFRectangle *_trimBox  = _page->getTrimBox();
+                PDFRectangle *_artBox   = _page->getArtBox();
+
+                PA_ObjectRef mediaBox = PA_CreateObject();
+                PA_ObjectRef cropBox  = PA_CreateObject();
+                PA_ObjectRef bleedBox = PA_CreateObject();
+                PA_ObjectRef trimBox  = PA_CreateObject();
+                PA_ObjectRef artBox   = PA_CreateObject();
+                
+                ob_set_n(mediaBox, L"x1", _mediaBox->x1);
+                ob_set_n(mediaBox, L"y1", _mediaBox->y1);
+                ob_set_n(mediaBox, L"x2", _mediaBox->x2);
+                ob_set_n(mediaBox, L"y2", _mediaBox->y2);
+
+                ob_set_n(cropBox,  L"x1", _cropBox->x1);
+                ob_set_n(cropBox,  L"y1", _cropBox->y1);
+                ob_set_n(cropBox,  L"x2", _cropBox->x2);
+                ob_set_n(cropBox,  L"y2", _cropBox->y2);
+
+                ob_set_n(bleedBox, L"x1", _bleedBox->x1);
+                ob_set_n(bleedBox, L"y1", _bleedBox->y1);
+                ob_set_n(bleedBox, L"x2", _bleedBox->x2);
+                ob_set_n(bleedBox, L"y2", _bleedBox->y2);
+                
+                ob_set_n(trimBox,  L"x1", _trimBox->x1);
+                ob_set_n(trimBox,  L"y1", _trimBox->y1);
+                ob_set_n(trimBox,  L"x2", _trimBox->x2);
+                ob_set_n(trimBox,  L"y2", _trimBox->y2);
+                
+                ob_set_n(artBox,   L"x1", _artBox->x1);
+                ob_set_n(artBox,   L"y1", _artBox->y1);
+                ob_set_n(artBox,   L"x2", _artBox->x2);
+                ob_set_n(artBox,   L"y2", _artBox->y2);
+                
+                ob_set_o(page, L"mediaBox", mediaBox);
+                ob_set_o(page, L"cropBox", cropBox);
+                ob_set_o(page, L"bleedBox", bleedBox);
+                ob_set_o(page, L"trimBox", trimBox);
+                ob_set_o(page, L"artBox", artBox);
+                
+                PA_Variable v = PA_CreateVariable(eVK_Object);
+                PA_SetObjectVariable(&v, page);
+                PA_SetCollectionElement(pages, PA_GetCollectionLength(pages), v);
+                PA_ClearVariable(&v);
+
+            }
+
+            ob_set_c(infoObj, L"pages", pages);
+            
+            ob_set_b(infoObj, L"isLinearized", doc->isLinearized());
+            
+            ob_set_n(infoObj, L"version", doc->getPDFVersion());
+            
+            if (metadata) {
+                                
+                ob_set_s(infoObj, L"metadata", metadata->getCString());
+                
+                delete metadata;
+            }
+           
+             ob_set_o(status, L"info", infoObj);
+            
+            ob_set_b(status, L"success", true);
+        }
+
+        delete doc;
+        
+        uMap->decRefCnt();
+    }
+    
+    delete globalParams;
     
     PA_ReturnObject(params, status);
 }

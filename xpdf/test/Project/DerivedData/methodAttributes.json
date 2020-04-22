@@ -35,8 +35,14 @@
 				"preemptive": "capable"
 			}
 		},
-		"TEST": {
-			"timeStamp": "2020-04-19T13:54:10.000Z"
+		"TEST_IMAGE": {
+			"timeStamp": "2020-04-22T07:58:34.483Z"
+		},
+		"TEST_TEXT": {
+			"timeStamp": "2020-04-22T07:46:42.322Z"
+		},
+		"TEST_INFO": {
+			"timeStamp": "2020-04-22T08:53:54.550Z"
 		},
 		"generate_project": {
 			"timeStamp": "2020-04-18T15:39:29.000Z"

@@ -12,7 +12,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			6W2IHH4BBQw2SIfNlFwID36+W+o=
+			unQZz2F+NvAuFlaP6OogpgTRvzo=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -54,11 +54,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			6W2IHH4BBQw2SIfNlFwID36+W+o=
+			unQZz2F+NvAuFlaP6OogpgTRvzo=
 			</data>
 			<key>hash2</key>
 			<data>
-			7Bvs1WzDd3A0XrgN25e2Wh7GvKd4j/cZoH7OfYeJqKY=
+			U5sgaLY51mJ/6Hadku9namJXXdoGKJn8H1LDDUYxNQY=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -89,29 +89,29 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			WojTO0tXv2jetaNCDG4+WZbJqSI=
+			ANnESm2Vp/bVTheXXG7MkQ4V4iM=
 			</data>
 			<key>hash2</key>
 			<data>
-			C9TLwLtgD2gtHYdNwP37rdlMTGn7DCU+AuGVkKxTuBM=
+			FK4o8H4ZjNdmO5h+YGobMV/7lJM3p0f02zlJclyUGJQ=
 			</data>
 		</dict>
 		<key>Windows64/xpdf.4DX</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			GTcT6095fPW0hDxEBSyBTHA0U+o=
+			V2gjg3hUQDc9avw+5rhEs+1X/2o=
 			</data>
 			<key>hash2</key>
 			<data>
-			Nncp2YPh+MWkQLv6PdVEvZ26nxvApRhoUaXk4PeePVY=
+			8CGjS/v8nHypCDtxwSKED/1DE38AiioG8hOXnTCPG1E=
 			</data>
 		</dict>
 		<key>manifest.json</key>
 		<dict>
 			<key>cdhash</key>
 			<data>
-			yqo4UVaBB3OuPQ2oNvMyDOypqEk=
+			cKM6atg0guRLuiXatO9oFxiqlio=
 			</data>
 			<key>requirement</key>
 			<string>identifier manifest and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = Y69CWUC25B</string>

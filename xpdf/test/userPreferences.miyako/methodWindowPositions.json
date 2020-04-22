@@ -143,12 +143,6 @@
 		"width": 1129,
 		"height": 762
 	},
-	"Sources/Methods/TEST.4dm": {
-		"left": 450,
-		"top": 188,
-		"width": 877,
-		"height": 637
-	},
 	"Sources/Methods/TEST_v17.4dm": {
 		"left": 450,
 		"top": 163,
@@ -160,5 +154,23 @@
 		"top": 458,
 		"width": 1129,
 		"height": 787
+	},
+	"Sources/Methods/TEST_INFO.4dm": {
+		"left": 117,
+		"top": 378,
+		"width": 722,
+		"height": 740
+	},
+	"Sources/Methods/TEST_TEXT.4dm": {
+		"left": 117,
+		"top": 331,
+		"width": 1129,
+		"height": 787
+	},
+	"Sources/Methods/TEST_IMAGE.4dm": {
+		"left": 253,
+		"top": 188,
+		"width": 877,
+		"height": 637
 	}
 }
