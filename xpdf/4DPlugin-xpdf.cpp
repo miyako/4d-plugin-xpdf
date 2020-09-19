@@ -534,7 +534,6 @@ void XPDF_Get_images(PA_PluginParameters params) {
             
             for (int pg = firstPage; pg <= lastPage; ++pg) {
                 
-                
                 ImageOutputDev *imgOut = new ImageOutputDev(NULL,
                                                             gFalse,
                                                             gFalse,
@@ -562,7 +561,7 @@ void XPDF_Get_images(PA_PluginParameters params) {
                 }else{
                     vdpi = vdpi ? vdpi : user_vdpi;
                 }
-
+                            
                 doc->displayPage(splashOut, pg,
                                  hdpi,
                                  vdpi,
@@ -1122,9 +1121,34 @@ void XPDF_Get_info(PA_PluginParameters params) {
                 w = doc->getPageCropWidth(pg);
                 h = doc->getPageCropHeight(pg);
                 
-                ob_set_n(page, L"width",  w);
+                ImageOutputDev *imgOut = new ImageOutputDev(NULL,
+                                                            gFalse,
+                                                            gFalse,
+                                                            gTrue);
+                
+                doc->displayPage(imgOut, pg,
+                                 72,
+                                 72,
+                                 0,
+                                 gFalse, gTrue, gFalse);
+                
+                double hdpi = imgOut->getHdpi();
+                double vdpi = imgOut->getVdpi();
+                
+                delete imgOut;
+                
+                ob_set_n(page, L"hdpi", hdpi);
+                ob_set_n(page, L"vdpi", vdpi);
+                
+//                double mediaWidth = doc->getPageMediaWidth(pg);
+//                double mediaHeight = doc->getPageMediaHeight(pg);
+                
+                ob_set_n(page, L"width", w);
                 ob_set_n(page, L"height", h);
-                                
+                
+//                ob_set_n(page, L"mediaWidth", mediaWidth);
+//                ob_set_n(page, L"mediaHeight", mediaHeight);
+                
                 if ((fabs(w - 612) < 0.1 && fabs(h - 792) < 0.1) ||
                     (fabs(w - 792) < 0.1 && fabs(h - 612) < 0.1)) {
                     

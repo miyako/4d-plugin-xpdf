@@ -191,8 +191,8 @@
 	"Sources/Methods/TEST_INFO.4dm": {
 		"startSelection": 0,
 		"endSelection": 0,
-		"firstSelectedLine": 0,
-		"lastSelectedLine": 0,
+		"firstSelectedLine": 5,
+		"lastSelectedLine": 5,
 		"folding": [],
 		"bookmarks": [],
 		"stamp": "2020-04-22T08:54:17.000Z"
