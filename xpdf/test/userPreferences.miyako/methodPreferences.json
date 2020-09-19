@@ -207,12 +207,12 @@
 		"stamp": "2020-04-22T07:46:42.322Z"
 	},
 	"Sources/Methods/TEST_IMAGE.4dm": {
-		"startSelection": 13,
-		"endSelection": 13,
-		"firstSelectedLine": 25,
-		"lastSelectedLine": 25,
+		"startSelection": 0,
+		"endSelection": 0,
+		"firstSelectedLine": 0,
+		"lastSelectedLine": 0,
 		"folding": [],
 		"bookmarks": [],
-		"stamp": "2020-09-19T05:21:20.097Z"
+		"stamp": "2020-09-19T05:21:20.000Z"
 	}
 }

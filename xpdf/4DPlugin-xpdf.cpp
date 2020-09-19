@@ -423,7 +423,13 @@ void XPDF_Get_images(PA_PluginParameters params) {
     /* mono and alpha are mutually exclusive */
     
     GBool pngAlpha = gFalse;
-        
+      
+    double user_hdpi = 150;
+    double user_vdpi = 150;
+    
+    GBool user_hdpi_set = gFalse;
+    GBool user_vdpi_set = gFalse;
+    
     if(options){
 
         CUTF8String _layout, _ownerPassword, _userPassword;
@@ -440,6 +446,18 @@ void XPDF_Get_images(PA_PluginParameters params) {
             
             lastPage = ob_get_n(options, L"end");
 
+        }
+        
+        if(ob_is_defined(options, L"hdpi")) {
+            
+            user_hdpi = ob_get_n(options, L"hdpi");
+            user_hdpi_set = gTrue;
+        }
+        
+        if(ob_is_defined(options, L"vdpi")) {
+            
+            user_vdpi = ob_get_n(options, L"vdpi");
+            user_vdpi_set = gTrue;
         }
         
         if(ob_is_defined(options, L"mono")) {
@@ -533,6 +551,18 @@ void XPDF_Get_images(PA_PluginParameters params) {
                 
                 delete imgOut;
                 
+                if(user_hdpi_set){
+                    hdpi = user_hdpi;
+                }else{
+                    hdpi = hdpi ? hdpi : user_hdpi;
+                }
+                
+                if(user_vdpi_set){
+                    vdpi = user_vdpi;
+                }else{
+                    vdpi = vdpi ? vdpi : user_vdpi;
+                }
+
                 doc->displayPage(splashOut, pg,
                                  hdpi,
                                  vdpi,

@@ -28,14 +28,16 @@
 
 ImageOutputDev::ImageOutputDev(char *fileRootA, GBool dumpJPEGA,
 			       GBool dumpRawA, GBool listA) {
-  fileRoot = copyString(fileRootA ? fileRootA : "");
-  fileName = (char *)gmalloc((int)strlen(fileRoot) + 30);
-  dumpJPEG = dumpJPEGA;
-  dumpRaw = dumpRawA;
-  list = listA;
-  imgNum = 0;
-  curPageNum = 0;
-  ok = gTrue;
+    fileRoot = copyString(fileRootA ? fileRootA : "");
+    fileName = (char *)gmalloc((int)strlen(fileRoot) + 30);
+    dumpJPEG = dumpJPEGA;
+    dumpRaw = dumpRawA;
+    list = listA;
+    imgNum = 0;
+    curPageNum = 0;
+    hdpi = 0;
+    vdpi = 0;
+    ok = gTrue;
 }
 
 ImageOutputDev::~ImageOutputDev() {
