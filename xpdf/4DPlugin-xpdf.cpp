@@ -109,7 +109,8 @@ static BOOL setupPNG(png_structp *png,
                      C_BLOB *f,
                      int bitDepth,
                      int colorType,
-                     double res,
+                     double hdpi,
+                     double vdpi,
                      SplashBitmap *bitmap) {
     
     png_color_16 background;
@@ -144,12 +145,10 @@ static BOOL setupPNG(png_structp *png,
                              bitmap->getWidth(), bitmap->getHeight(),
                              bitDepth, colorType, PNG_INTERLACE_NONE,
                              PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
-
-                pixelsPerMeter = (int)(res * (1000 / 25.4) + 0.5);
                 
                 png_set_pHYs(*png, *pngInfo,
-                pixelsPerMeter,
-                pixelsPerMeter,
+                (int)(hdpi * (1000 / 25.4) + 0.5),
+                (int)(vdpi * (1000 / 25.4) + 0.5),
                 PNG_RESOLUTION_METER);
                 
                 png_write_info(*png, *pngInfo);
@@ -415,9 +414,7 @@ void XPDF_Get_images(PA_PluginParameters params) {
             
     GString *ownerPW = NULL;
     GString *userPW  = NULL;
-    
-    double resolution = 150;
-        
+            
     /* mono and gray are mutually exclusive */
     
     GBool mono = gFalse;
@@ -519,9 +516,26 @@ void XPDF_Get_images(PA_PluginParameters params) {
             
             for (int pg = firstPage; pg <= lastPage; ++pg) {
                 
+                
+                ImageOutputDev *imgOut = new ImageOutputDev(NULL,
+                                                            gFalse,
+                                                            gFalse,
+                                                            gTrue);
+                
+                doc->displayPage(imgOut, pg,
+                                 72,
+                                 72,
+                                 0,
+                                 gFalse, gTrue, gFalse);
+                
+                double hdpi = imgOut->getHdpi();
+                double vdpi = imgOut->getVdpi();
+                
+                delete imgOut;
+                
                 doc->displayPage(splashOut, pg,
-                                 resolution,
-                                 resolution,
+                                 hdpi,
+                                 vdpi,
                                  0,
                                  gFalse, gTrue, gFalse);
                 
@@ -537,7 +551,8 @@ void XPDF_Get_images(PA_PluginParameters params) {
                                 &pngBuf,
                                 1,
                                 PNG_COLOR_TYPE_GRAY,
-                                resolution,
+                                hdpi,
+                                vdpi,
                                 splashOut->getBitmap())) {
                         
                         writePNGData(png, splashOut->getBitmap(), pngAlpha);
@@ -563,7 +578,8 @@ void XPDF_Get_images(PA_PluginParameters params) {
                              &pngBuf,
                              8,
                              pngAlpha ? PNG_COLOR_TYPE_GRAY_ALPHA : PNG_COLOR_TYPE_GRAY,
-                             resolution,
+                             hdpi,
+                             vdpi,
                              splashOut->getBitmap());
                     
                     writePNGData(png, splashOut->getBitmap(), pngAlpha);
@@ -585,7 +601,8 @@ void XPDF_Get_images(PA_PluginParameters params) {
                              &pngBuf,
                              8,
                              pngAlpha ? PNG_COLOR_TYPE_RGB_ALPHA : PNG_COLOR_TYPE_RGB,
-                             resolution,
+                             hdpi,
+                             vdpi,
                              splashOut->getBitmap());
                     
                     writePNGData(png, splashOut->getBitmap(), pngAlpha);

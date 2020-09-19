@@ -95,21 +95,27 @@ public:
 				   GfxImageColorMap *maskColorMap,
 				   double *matte, GBool interpolate);
 
+     double getHdpi(){return hdpi;};
+     double getVdpi(){return vdpi;};
+    
 private:
 
-  Stream *getRawStream(Stream *str);
-  const char *getRawFileExtension(Stream *str);
-  void writeImageInfo(int width, int height, GfxState *state,
-		      GfxImageColorMap *colorMap);
-
-  char *fileRoot;		// root of output file names
-  char *fileName;		// buffer for output file names
-  GBool dumpJPEG;		// set to dump native JPEG files
-  GBool dumpRaw;		// set to dump raw PDF-native image files
-  GBool list;			// set to write image info to stdout
-  int imgNum;			// current image number
-  int curPageNum;		// current page number
-  GBool ok;			// set up ok?
+    Stream *getRawStream(Stream *str);
+    const char *getRawFileExtension(Stream *str);
+    void writeImageInfo(int width, int height, GfxState *state,
+                        GfxImageColorMap *colorMap);
+    
+    char *fileRoot;		// root of output file names
+    char *fileName;		// buffer for output file names
+    GBool dumpJPEG;		// set to dump native JPEG files
+    GBool dumpRaw;		// set to dump raw PDF-native image files
+    GBool list;			// set to write image info to stdout
+    int imgNum;			// current image number
+    int curPageNum;		// current page number
+    GBool ok;			// set up ok?
+    
+    double hdpi;
+    double vdpi;
 };
 
 #endif

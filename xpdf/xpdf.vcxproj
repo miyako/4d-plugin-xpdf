@@ -28,6 +28,7 @@
     <ClCompile Include="4D Plugin API\Classes\C_BLOB.cpp" />
     <ClCompile Include="4D Plugin API\Classes\C_TEXT.cpp" />
     <ClCompile Include="4DPlugin-xpdf.cpp" />
+    <ClCompile Include="include\xpdf\ImageOutputDev.cc" />
     <ClCompile Include="include\xpdf\SplashOutputDev.cc">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsCpp</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CompileAsCpp</CompileAs>
@@ -45,6 +46,7 @@
     <ClInclude Include="4D Plugin API\PublicTypes.h" />
     <ClInclude Include="4DPlugin-xpdf.h" />
     <ClInclude Include="include\xpdf\Error.h" />
+    <ClInclude Include="include\xpdf\ImageOutputDev.h" />
     <ClInclude Include="include\xpdf\TextOutputDev.h" />
     <ClInclude Include="support\4DPlugin-JSON.h" />
   </ItemGroup>

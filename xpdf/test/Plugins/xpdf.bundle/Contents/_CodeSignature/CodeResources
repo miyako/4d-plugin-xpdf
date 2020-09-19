@@ -12,7 +12,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			unQZz2F+NvAuFlaP6OogpgTRvzo=
+			Ejq6DvxWBNFaa/4SwmyrUl6V7Ro=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -30,10 +30,6 @@
 	<dict>
 		<key>QuickLook/Thumbnail.png</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			hC+U8EqvyIRM1lLakHLfvl4V9Tc=
-			</data>
 			<key>hash2</key>
 			<data>
 			nGfrvibB5KlzvZgF4Bra+l0HpRloxismgTLePnOwCdk=
@@ -41,10 +37,6 @@
 		</dict>
 		<key>Resources/COPYING (xpdf)</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			hiS82uVbru8AzRHV38+mD2hxCgI=
-			</data>
 			<key>hash2</key>
 			<data>
 			jOtLnuWt7d5Hsx6XXB2QxzrSe2sWWh3NgMfFRetluQM=
@@ -52,23 +44,15 @@
 		</dict>
 		<key>Resources/English.lproj/InfoPlist.strings</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			unQZz2F+NvAuFlaP6OogpgTRvzo=
-			</data>
 			<key>hash2</key>
 			<data>
-			U5sgaLY51mJ/6Hadku9namJXXdoGKJn8H1LDDUYxNQY=
+			sonl6Fp63AUr8if703VeSVxia0+14gZDFuifFkM1Xjg=
 			</data>
 			<key>optional</key>
 			<true/>
 		</dict>
 		<key>Resources/README (xpdf)</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			2EVQk6IR4LB7a0qQjz3t3yxDw80=
-			</data>
 			<key>hash2</key>
 			<data>
 			dVvs4NVMayEk9y9QYQzbxkAxsof7mCM9lFYkHwsENZw=
@@ -76,10 +60,6 @@
 		</dict>
 		<key>Resources/constants.xlf</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			elDRjnGVwHX85LHqaMSiE98uKEo=
-			</data>
 			<key>hash2</key>
 			<data>
 			HQ8Rzg4fxBPKb9Vxmqwnz4NvpQqSIibdNqHxBbT6lz4=
@@ -87,24 +67,16 @@
 		</dict>
 		<key>Windows/xpdf.4DX</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			ANnESm2Vp/bVTheXXG7MkQ4V4iM=
-			</data>
 			<key>hash2</key>
 			<data>
-			FK4o8H4ZjNdmO5h+YGobMV/7lJM3p0f02zlJclyUGJQ=
+			LlcUjo55ENDKca3NNNe9skW7WLwoTcqR3LWLbGVhPp0=
 			</data>
 		</dict>
 		<key>Windows64/xpdf.4DX</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			V2gjg3hUQDc9avw+5rhEs+1X/2o=
-			</data>
 			<key>hash2</key>
 			<data>
-			8CGjS/v8nHypCDtxwSKED/1DE38AiioG8hOXnTCPG1E=
+			3GE3zNwY+g06epOjqV/uN7bMxHPtZK7Ae9cX0ET2g9E=
 			</data>
 		</dict>
 		<key>manifest.json</key>

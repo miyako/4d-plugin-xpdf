@@ -6,6 +6,7 @@ $status:=XPDF Get images ($path)
 C_PICTURE:C286($image)
 
 For each ($image;$status.images)
+	WRITE PICTURE FILE:C680(System folder:C487(Desktop:K41:16)+"test.png";$image)
 	SET PICTURE TO PASTEBOARD:C521($image)
 End for each 
 

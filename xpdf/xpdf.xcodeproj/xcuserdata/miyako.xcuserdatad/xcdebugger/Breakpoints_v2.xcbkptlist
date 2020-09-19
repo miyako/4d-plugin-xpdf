@@ -7,33 +7,17 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "50CA5523-D1D7-4CD4-83C2-F7E979284196"
-            shouldBeEnabled = "Yes"
+            uuid = "1A416321-8F19-43CF-B17E-5D6925E48B7B"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "include/xpdf/SplashOutputDev.h"
+            filePath = "include/xpdf/ImageOutputDev.cc"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "49"
-            endingLineNumber = "49"
-            landmarkName = "SplashOutputDev(colorModeA, bitmapRowPadA, reverseVideoA, paperColorA, gTrue, gTrue)"
-            landmarkType = "6">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "E0A8B0C4-CCED-402B-86A6-9A39F3612A4D"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "include/xpdf/GlobalParams.h"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "295"
-            endingLineNumber = "295"
-            landmarkName = "GlobalParams"
-            landmarkType = "3">
+            startingLineNumber = "153"
+            endingLineNumber = "153"
+            landmarkName = "ImageOutputDev::drawImage(state, ref, str, width, height, colorMap, maskColors, inlineImg, interpolate)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
