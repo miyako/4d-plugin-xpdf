@@ -1,5 +1,5 @@
 //%attributes = {}
-$path:=System folder:C487(Desktop:K41:16)+"test.pdf"
+$path:=System folder:C487(Desktop:K41:16)+"Contrat Emilie.pdf"
 
 $status:=XPDF Get images ($path)
 
