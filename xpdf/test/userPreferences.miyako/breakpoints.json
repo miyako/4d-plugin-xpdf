@@ -5,12 +5,5 @@
 			"type": 1,
 			"methodName": "TEST_INFO"
 		}
-	},
-	{
-		"line": 5,
-		"method": {
-			"type": 1,
-			"methodName": "TEST_IMAGE"
-		}
 	}
 ]
