@@ -4,7 +4,7 @@
 ![downloads](https://img.shields.io/github/downloads/miyako/4d-plugin-xpdf/total)
 
 # 4d-plugin-xpdf
-PDF tools based on [Xpdf](https://www.xpdfreader.com/opensource.html).
+PDF tools based on [Xpdf 4.02](https://www.xpdfreader.com/opensource.html).
 
 #### Notes
 
