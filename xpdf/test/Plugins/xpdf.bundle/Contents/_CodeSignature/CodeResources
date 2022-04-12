@@ -12,7 +12,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			YJOzRGPdG2q/xVFvGDCJU1Q/A3c=
+			rGzf5FwbhsBSJR8bpx14ZWJmS9Y=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -108,15 +108,6 @@
 	</dict>
 	<key>files2</key>
 	<dict>
-		<key>Frameworks/libfontconfig.1.dylib</key>
-		<dict>
-			<key>cdhash</key>
-			<data>
-			K5AVNmFSYFrS8edjdfQpiG5Xb6Y=
-			</data>
-			<key>requirement</key>
-			<string>identifier "libfontconfig.1" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = Y69CWUC25B</string>
-		</dict>
 		<key>QuickLook/Thumbnail.png</key>
 		<dict>
 			<key>hash2</key>
@@ -135,7 +126,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			Yg4NbnAKZNJq29qRPzVAu1658+Bvhb7bzasAbJjA7ts=
+			6C+SP2biTBgBX/Z1f+xHUafdv/s36J0jzQcyDHRtZ74=
 			</data>
 			<key>optional</key>
 			<true/>

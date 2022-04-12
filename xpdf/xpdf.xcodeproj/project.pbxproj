@@ -32,7 +32,6 @@
 		D1B07FBF2805F07500504FB1 /* libfontconfig.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D1176C4E244B59620083ABAC /* libfontconfig.a */; };
 		D1B07FC12805F0B400504FB1 /* libexpat.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = D1B07FC02805F0B400504FB1 /* libexpat.tbd */; };
 		D1B07FC22805F2E900504FB1 /* libfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D1176C50244B59870083ABAC /* libfreetype.a */; };
-		D1B07FC52806114F00504FB1 /* libfontconfig.1.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = D1B07FC32806114E00504FB1 /* libfontconfig.1.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		D1EE1923244C7895001504DA /* SplashOutputDev.cc in Sources */ = {isa = PBXBuildFile; fileRef = D1EE1922244C7895001504DA /* SplashOutputDev.cc */; };
 /* End PBXBuildFile section */
 
@@ -45,17 +44,6 @@
 			files = (
 				D134D4AC1A030BA0008D14EF /* manifest.json in CopyFiles */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D1B07FC62806114F00504FB1 /* Embed Libraries */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				D1B07FC52806114F00504FB1 /* libfontconfig.1.dylib in Embed Libraries */,
-			);
-			name = "Embed Libraries";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -267,7 +255,6 @@
 				8D01CCCD0486CAD60068D4B7 /* Frameworks */,
 				8D01CCCF0486CAD60068D4B7 /* Rez */,
 				D1292E7B22C4A91E00CB5A8C /* ShellScript */,
-				D1B07FC62806114F00504FB1 /* Embed Libraries */,
 			);
 			buildRules = (
 			);
@@ -417,8 +404,8 @@
 					/opt/homebrew/Cellar/freetype/2.12.0/lib,
 				);
 				LIBRARY_STYLE = Bundle;
-				MARKETING_VERSION = 2.0.1;
-				ONLY_ACTIVE_ARCH = YES;
+				MARKETING_VERSION = 2.0.2;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -471,8 +458,8 @@
 					/opt/homebrew/Cellar/freetype/2.12.0/lib,
 				);
 				LIBRARY_STYLE = Bundle;
-				MARKETING_VERSION = 2.0.1;
-				ONLY_ACTIVE_ARCH = YES;
+				MARKETING_VERSION = 2.0.2;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -523,8 +510,8 @@
 					/opt/homebrew/Cellar/freetype/2.12.0/lib,
 				);
 				LIBRARY_STYLE = Bundle;
-				MARKETING_VERSION = 2.0.1;
-				ONLY_ACTIVE_ARCH = YES;
+				MARKETING_VERSION = 2.0.2;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -582,7 +569,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				OBJROOT = "$(SRCROOT)/build";
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = macosx;
 				SYMROOT = "$(SRCROOT)/test/Plugins";
 			};
@@ -628,7 +615,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				OBJROOT = "$(SRCROOT)/build";
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = macosx;
 				SYMROOT = "$(SRCROOT)/test/Plugins";
 			};
@@ -673,7 +660,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = macosx;
 				SYMROOT = "$(SRCROOT)/test/Plugins";
 			};
