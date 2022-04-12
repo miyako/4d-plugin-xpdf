@@ -13,3 +13,18 @@ To build Xpdf without Qt dependency, open ``cmake-config.txt`` and remove the bl
 ### Syntax
 
 [miyako.github.io](https://miyako.github.io/2020/04/19/4d-plugin-xpdf.html)
+
+### to add fontconfig
+
+in CMake, set `CMAKE_EXE_LINKER_FLAGS`
+
+```
+"-lfontconfig -L{LIBRARY_SEARCH_PATH}"
+```
+
+in *aconf.c*, set 
+
+```
+#define HAVE_FREETYPE_H 1
+```
+
