@@ -22,6 +22,8 @@ in CMake, set `CMAKE_EXE_LINKER_FLAGS`
 "-lfontconfig -L{LIBRARY_SEARCH_PATH}"
 ```
 
+generate UNIX *Makefile*
+
 in *aconf.c*, set 
 
 ```
