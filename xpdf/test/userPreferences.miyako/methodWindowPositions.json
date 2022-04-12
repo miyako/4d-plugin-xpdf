@@ -1,4 +1,4 @@
-﻿{
+{
 	"Sources/DatabaseMethods/onStartup.4dm": {
 		"left": 322,
 		"top": 651,
@@ -169,7 +169,7 @@
 	},
 	"Sources/Methods/TEST_IMAGE.4dm": {
 		"left": 518,
-		"top": 103,
+		"top": 111,
 		"width": 877,
 		"height": 637
 	}

@@ -25,6 +25,82 @@
 		<data>
 		elDRjnGVwHX85LHqaMSiE98uKEo=
 		</data>
+		<key>Resources/fonts/conf.d/10-hinting-slight.conf</key>
+		<data>
+		QMA1HfxsDRxEnwVgpPPr5nE+ejc=
+		</data>
+		<key>Resources/fonts/conf.d/10-scale-bitmap-fonts.conf</key>
+		<data>
+		dyaP3LyXuPHnxvmVTRAeU/e36QA=
+		</data>
+		<key>Resources/fonts/conf.d/20-unhint-small-vera.conf</key>
+		<data>
+		zP+FLdHG2K1lTz9iVMCzwvctDvE=
+		</data>
+		<key>Resources/fonts/conf.d/30-metric-aliases.conf</key>
+		<data>
+		FvAks5DfFrQUmUFcy6F3VGl4gmg=
+		</data>
+		<key>Resources/fonts/conf.d/40-nonlatin.conf</key>
+		<data>
+		8gReZtcpl+0C/IgueBHoS8Jpjaw=
+		</data>
+		<key>Resources/fonts/conf.d/45-generic.conf</key>
+		<data>
+		nicl0bYqm1DwjLkvH6MCr2ycHEg=
+		</data>
+		<key>Resources/fonts/conf.d/45-latin.conf</key>
+		<data>
+		n4LSEVhZc6av1Bqq3v8y+WCE4s4=
+		</data>
+		<key>Resources/fonts/conf.d/49-sansserif.conf</key>
+		<data>
+		IR1BZrAwCOGL7pCZCChffbX0pZ0=
+		</data>
+		<key>Resources/fonts/conf.d/50-user.conf</key>
+		<data>
+		Ve/X40HYxIFevjbE4eIdf+/HkiI=
+		</data>
+		<key>Resources/fonts/conf.d/51-local.conf</key>
+		<data>
+		gDHtx6IpGAIn438JG0PKjm//wvc=
+		</data>
+		<key>Resources/fonts/conf.d/60-generic.conf</key>
+		<data>
+		EvxRzL3yZWvubvpQui5/2qYdLwY=
+		</data>
+		<key>Resources/fonts/conf.d/60-latin.conf</key>
+		<data>
+		PpwBli5NsViyAn7H260eqez7NKc=
+		</data>
+		<key>Resources/fonts/conf.d/65-fonts-persian.conf</key>
+		<data>
+		UR8F/UEBtSskLvCbrUvvxce64g8=
+		</data>
+		<key>Resources/fonts/conf.d/65-nonlatin.conf</key>
+		<data>
+		OUiHtoRjpGA4IPcGXrcrVfwsodY=
+		</data>
+		<key>Resources/fonts/conf.d/69-unifont.conf</key>
+		<data>
+		J01mWR7TXiHwdEkatAhkCtAtOZA=
+		</data>
+		<key>Resources/fonts/conf.d/80-delicious.conf</key>
+		<data>
+		0yjZNnH7ADaFqKZX49t3q5iDL2Y=
+		</data>
+		<key>Resources/fonts/conf.d/90-synthetic.conf</key>
+		<data>
+		yL9LiEC6iiGkq2E/wWi0Zs20638=
+		</data>
+		<key>Resources/fonts/conf.d/README</key>
+		<data>
+		OITpD5BZympVY/Xv1q487Tqxi9k=
+		</data>
+		<key>Resources/fonts/fonts.conf</key>
+		<data>
+		rU3AyOQgErn0aG/bjkM6qguQqzI=
+		</data>
 		<key>Resources/manifest.json</key>
 		<data>
 		m96Hi3PYN6wO9YP3vw3NBX5KWFg=
@@ -32,6 +108,15 @@
 	</dict>
 	<key>files2</key>
 	<dict>
+		<key>Frameworks/libfontconfig.1.dylib</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			K5AVNmFSYFrS8edjdfQpiG5Xb6Y=
+			</data>
+			<key>requirement</key>
+			<string>identifier "libfontconfig.1" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = Y69CWUC25B</string>
+		</dict>
 		<key>QuickLook/Thumbnail.png</key>
 		<dict>
 			<key>hash2</key>
@@ -69,18 +154,144 @@
 			HQ8Rzg4fxBPKb9Vxmqwnz4NvpQqSIibdNqHxBbT6lz4=
 			</data>
 		</dict>
+		<key>Resources/fonts/conf.d/10-hinting-slight.conf</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			H6xYqjyGXpsFCI+U96RoTYpg0TRCFpDP0EhC6wD+EzI=
+			</data>
+		</dict>
+		<key>Resources/fonts/conf.d/10-scale-bitmap-fonts.conf</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			MbxZGVd7PIl6hQlI4qPt6L1hLmc2r+hOUy7IpsEqNso=
+			</data>
+		</dict>
+		<key>Resources/fonts/conf.d/20-unhint-small-vera.conf</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			5LyOL1H+S+z3eMm/P5d5NdQ5b0IZPuAunVgscaIS4rk=
+			</data>
+		</dict>
+		<key>Resources/fonts/conf.d/30-metric-aliases.conf</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			5CTKy9nXpclkbVv9ERJ8Zhgst0DGRPrQ95kKt0KzVq4=
+			</data>
+		</dict>
+		<key>Resources/fonts/conf.d/40-nonlatin.conf</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			Le107adGf1EgTcxAcCB9zf8GEgxyW08cNjWFxRslP8s=
+			</data>
+		</dict>
+		<key>Resources/fonts/conf.d/45-generic.conf</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			SOm577lp938E0FWtUS3XMqgxmmVb2TARkhyRIyGxisY=
+			</data>
+		</dict>
+		<key>Resources/fonts/conf.d/45-latin.conf</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			Ghfq60S9w2fxaTnfssoaAKV6m3iLkFeoDGVmZ/pBch4=
+			</data>
+		</dict>
+		<key>Resources/fonts/conf.d/49-sansserif.conf</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			h2PNrC3BW8nKRyK/xCkVyqzFheG3OxaHAnmZ66GkhZ4=
+			</data>
+		</dict>
+		<key>Resources/fonts/conf.d/50-user.conf</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			+LqKlfsjKpuvJ2blS+DBCzzeQKJ2+qbZiOZyVZkvYZ8=
+			</data>
+		</dict>
+		<key>Resources/fonts/conf.d/51-local.conf</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			8orGerMVQMW13z+u6dHWxtMbqD6ofoUYUPX54yNBEmw=
+			</data>
+		</dict>
+		<key>Resources/fonts/conf.d/60-generic.conf</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			ZazzyDbIjU1LRV15HLMtX3+IUOR5Ud6EOc88F3vuoHU=
+			</data>
+		</dict>
+		<key>Resources/fonts/conf.d/60-latin.conf</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			wOnDzfS3hdvXu0/u6p6SwWTsRSyZOFRSrKHvvTaBdIQ=
+			</data>
+		</dict>
+		<key>Resources/fonts/conf.d/65-fonts-persian.conf</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			TVPcjMlgTg/scWpZR7UjUxSxWU0cCfYqNHeOYyHcjyA=
+			</data>
+		</dict>
+		<key>Resources/fonts/conf.d/65-nonlatin.conf</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			0RoHT+ZJ+6WD5QaMC2vY7rK3rGcCSWIjcmDTC+pgEeo=
+			</data>
+		</dict>
+		<key>Resources/fonts/conf.d/69-unifont.conf</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			609M5/CQF8yXZOqZedwB/yGQL1VmvHPn1yGocvzIDLs=
+			</data>
+		</dict>
+		<key>Resources/fonts/conf.d/80-delicious.conf</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			08syfed5rZKbEqUBtEfh+cVB9RQ344mz0X7bPs/4NJY=
+			</data>
+		</dict>
+		<key>Resources/fonts/conf.d/90-synthetic.conf</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			VKWTXqecZuB/r3Q7gfJkfsqEmACysEIuhM1mUnp1Bmo=
+			</data>
+		</dict>
+		<key>Resources/fonts/conf.d/README</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			8VrMKSY4FefgQUSksSXoJqUFV837RN/CDOpdzYacbqE=
+			</data>
+		</dict>
+		<key>Resources/fonts/fonts.conf</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			iqJZ2UTnXmTZfO4gNo7yS6kGnCJanSeeAaRY6DdsMuc=
+			</data>
+		</dict>
 		<key>Resources/manifest.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
 			g55x5rVSdRiTErt6XnFNoaV4Q6Ciqo9gj9czx3QF/io=
-			</data>
-		</dict>
-		<key>Windows/xpdf.4DX</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			SeTdQ/5fC//1getG0K87DnjeUKKQ3yKHbK0iAW8HDH4=
 			</data>
 		</dict>
 		<key>Windows64/xpdf.4DX</key>

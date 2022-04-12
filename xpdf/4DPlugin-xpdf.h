@@ -56,6 +56,8 @@
 
 #include "png.h"
 
+#include "fontconfig/fontconfig.h"
+
 #pragma mark -
 
 static void XPDF_Get_text(PA_PluginParameters params);

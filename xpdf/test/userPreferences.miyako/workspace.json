@@ -1,4 +1,4 @@
-﻿{
+{
 	"editors": [
 		{
 			"type": "method",
@@ -7,6 +7,9 @@
 				"type": 1,
 				"methodName": "TEST_IMAGE"
 			}
+		},
+		{
+			"type": "explorer"
 		}
 	]
 }

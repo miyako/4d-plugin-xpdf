@@ -12,6 +12,53 @@
 
 #pragma mark -
 
+void OnStartup(){
+
+    //define environment varaibles: [FONTCONFIG_FILE, FONTCONFIG_PATH]
+
+#if VERSIONMAC
+    NSBundle *thisBundle = [NSBundle bundleWithIdentifier:@"com.4D.xpdf"];
+    if(thisBundle){
+        NSString *FONTCONFIG_FILE = [thisBundle pathForResource:@"fonts" ofType:@"conf" inDirectory:@"fonts"];
+        if(FONTCONFIG_FILE){
+            NSString *FONTCONFIG_PATH = [FONTCONFIG_FILE stringByDeletingLastPathComponent];
+            //but we will still see lots of "some font thing failed"
+            setenv("FONTCONFIG_FILE", [FONTCONFIG_FILE UTF8String], 0);
+            setenv("FONTCONFIG_PATH", [FONTCONFIG_PATH UTF8String], 0);
+        }
+    }
+#else
+    wchar_t    thisPath[_MAX_PATH] = {0};
+    wchar_t    fDrive[_MAX_DRIVE], fDir[_MAX_DIR], fName[_MAX_FNAME], fExt[_MAX_EXT];
+    
+    HMODULE hplugin = GetModuleHandleW(L"XPDF.4DX");
+    GetModuleFileNameW(hplugin, thisPath, _MAX_PATH);
+    _wsplitpath_s(thisPath, fDrive, fDir, fName, fExt);
+    
+    std::wstring path = fDrive;
+    path += fDir;//path to plugin parent folder
+    
+    if(path.at(path.size() - 1) == L'\\')//remove delimiter
+        path = path.substr(0, path.size() - 1);
+    
+    _wsplitpath_s(path.c_str(), fDrive, fDir, fName, fExt);
+    wchar_t resourcesPath[_MAX_PATH] = {0};
+    _wmakepath_s(resourcesPath, fDrive, fDir, L"Resources\\", NULL);
+    
+    std::wstring FONTCONFIG_FILE = resourcesPath;
+    FONTCONFIG_FILE += L"fonts\\fonts.conf";
+    std::wstring FONTCONFIG_PATH = resourcesPath;
+    FONTCONFIG_PATH += L"fonts\\";
+    
+    SetEnvironmentVariable(L"FONTCONFIG_FILE", FONTCONFIG_FILE.c_str());
+    SetEnvironmentVariable(L"FONTCONFIG_PATH", FONTCONFIG_PATH.c_str());
+#endif
+    
+    FcChar8 *configpath = FcConfigFilename (0);
+    FcInitReinitialize();
+
+}
+
 void PluginMain(PA_long32 selector, PA_PluginParameters params) {
     
     try
@@ -19,6 +66,11 @@ void PluginMain(PA_long32 selector, PA_PluginParameters params) {
         switch(selector)
         {
                 // --- xpdf
+                
+            case kInitPlugin :
+            case kServerInitPlugin :
+                OnStartup();
+                break;
                 
             case 1 :
                 XPDF_Get_text(params);
@@ -295,7 +347,7 @@ void XPDF_Get_text(PA_PluginParameters params) {
     
     globalParams = new GlobalParams("");
     globalParams->setTextEncoding("UTF-8");
-
+        
     if ((uMap = globalParams->getTextEncoding())) {
         
         if (noPageBreaks) {
@@ -491,6 +543,10 @@ void XPDF_Get_images(PA_PluginParameters params) {
     PDFDoc *doc;
         
     globalParams = new GlobalParams("");
+    globalParams->setupBaseFonts(NULL);
+    globalParams->setEnableFreeType("yes");
+    globalParams->setAntialias("yes");
+    globalParams->setVectorAntialias("yes");
     
     doc = new PDFDoc((char *)filePath.c_str(), ownerPW, userPW);
     
