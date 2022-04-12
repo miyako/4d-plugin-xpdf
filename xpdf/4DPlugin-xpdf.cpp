@@ -138,21 +138,23 @@ static void writePNGData(png_structp png, SplashBitmap *bitmap, GBool pngAlpha) 
       rowBuf = (Guchar *)gmallocn(bitmap->getWidth(), 4);
       for (y = 0; y < bitmap->getHeight(); ++y) {
     rowBufPtr = rowBuf;
-    for (x = 0; x < bitmap->getWidth(); ++x) {
-      *rowBufPtr++ = *p++;
-      *rowBufPtr++ = *p++;
-      *rowBufPtr++ = *p++;
-      *rowBufPtr++ = *alpha++;
-    }
-    png_write_row(png, (png_bytep)rowBuf);
+          for (x = 0; x < bitmap->getWidth(); ++x) {
+              PA_Yield();
+              *rowBufPtr++ = *p++;
+              *rowBufPtr++ = *p++;
+              *rowBufPtr++ = *p++;
+              *rowBufPtr++ = *alpha++;
+          }
+          png_write_row(png, (png_bytep)rowBuf);
       }
-      gfree(rowBuf);
+        gfree(rowBuf);
     }
   } else {
-    for (y = 0; y < bitmap->getHeight(); ++y) {
-      png_write_row(png, (png_bytep)p);
-      p += bitmap->getRowSize();
-    }
+      for (y = 0; y < bitmap->getHeight(); ++y) {
+          PA_Yield();
+          png_write_row(png, (png_bytep)p);
+          p += bitmap->getRowSize();
+      }
   }
 }
 
@@ -446,6 +448,13 @@ void XPDF_Get_text(PA_PluginParameters params) {
     PA_ReturnObject(params, status);
 }
 
+GBool _PA_Yield(void *data) {
+    
+    PA_Yield();
+    
+    return gFalse;
+}
+
 void XPDF_Get_images(PA_PluginParameters params) {
     
     PA_ObjectRef status = PA_CreateObject();
@@ -595,11 +604,12 @@ void XPDF_Get_images(PA_PluginParameters params) {
                                                             gFalse,
                                                             gTrue);
                 
+                
                 doc->displayPage(imgOut, pg,
                                  72,
                                  72,
                                  0,
-                                 gFalse, gTrue, gFalse);
+                                 gFalse, gTrue, gFalse, _PA_Yield);
                 
                 double hdpi = imgOut->getHdpi();
                 double vdpi = imgOut->getVdpi();
@@ -622,7 +632,7 @@ void XPDF_Get_images(PA_PluginParameters params) {
                                  hdpi,
                                  vdpi,
                                  0,
-                                 gFalse, gTrue, gFalse);
+                                 gFalse, gTrue, gFalse, _PA_Yield);
                 
                 C_BLOB pngBuf;
                 
@@ -1186,7 +1196,7 @@ void XPDF_Get_info(PA_PluginParameters params) {
                                  72,
                                  72,
                                  0,
-                                 gFalse, gTrue, gFalse);
+                                 gFalse, gTrue, gFalse, _PA_Yield);
                 
                 double hdpi = imgOut->getHdpi();
                 double vdpi = imgOut->getVdpi();

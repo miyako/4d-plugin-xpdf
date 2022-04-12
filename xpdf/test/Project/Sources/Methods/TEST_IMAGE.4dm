@@ -10,6 +10,9 @@ For each ($image; $status.images)
 	SET PICTURE TO PASTEBOARD:C521($image)
 End for each 
 
+For each ($image; $status.images)
+	SET PICTURE TO PASTEBOARD:C521($image)
+End for each 
 $params:=New object:C1471("gray"; True:C214)
 
 $status:=XPDF Get images($path; $params)
@@ -21,7 +24,3 @@ End for each
 $params:=New object:C1471("mono"; True:C214)
 
 $status:=XPDF Get images($path; $params)
-
-For each ($image; $status.images)
-	SET PICTURE TO PASTEBOARD:C521($image)
-End for each 
