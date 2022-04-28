@@ -113,49 +113,77 @@ void output_flush_fn(png_structp png_ptr)
 
 static void writePNGData(png_structp png, SplashBitmap *bitmap, GBool pngAlpha) {
     
-  Guchar *p, *alpha, *rowBuf, *rowBufPtr;
-  int y, x;
-
-  if (setjmp(png_jmpbuf(png))) {
-    exit(2);
-  }
-  p = bitmap->getDataPtr();
+    Guchar *p, *alpha, *rowBuf, *rowBufPtr;
+    int y, x;
     
-  if (pngAlpha) {
-    alpha = bitmap->getAlphaPtr();
-    if (bitmap->getMode() == splashModeMono8) {
-      rowBuf = (Guchar *)gmallocn(bitmap->getWidth(), 2);
-      for (y = 0; y < bitmap->getHeight(); ++y) {
-    rowBufPtr = rowBuf;
-    for (x = 0; x < bitmap->getWidth(); ++x) {
-      *rowBufPtr++ = *p++;
-      *rowBufPtr++ = *alpha++;
+    if (setjmp(png_jmpbuf(png))) {
+        exit(2);
     }
-    png_write_row(png, (png_bytep)rowBuf);
-      }
-      gfree(rowBuf);
-    } else { // splashModeRGB8
-      rowBuf = (Guchar *)gmallocn(bitmap->getWidth(), 4);
-      for (y = 0; y < bitmap->getHeight(); ++y) {
-    rowBufPtr = rowBuf;
-          for (x = 0; x < bitmap->getWidth(); ++x) {
-              PA_Yield();
-              *rowBufPtr++ = *p++;
-              *rowBufPtr++ = *p++;
-              *rowBufPtr++ = *p++;
-              *rowBufPtr++ = *alpha++;
-          }
-          png_write_row(png, (png_bytep)rowBuf);
-      }
-        gfree(rowBuf);
+    
+    time_t startTime = time(0);
+    
+    p = bitmap->getDataPtr();
+    
+    if (pngAlpha) {
+        alpha = bitmap->getAlphaPtr();
+        if (bitmap->getMode() == splashModeMono8) {
+            rowBuf = (Guchar *)gmallocn(bitmap->getWidth(), 2);
+            for (y = 0; y < bitmap->getHeight(); ++y) {
+                
+                time_t now = time(0);
+                time_t elapsedTime = abs(startTime - now);
+                if (elapsedTime > 0)
+                {
+                    startTime = now;
+                    PA_YieldAbsolute();
+                }
+                
+                rowBufPtr = rowBuf;
+                for (x = 0; x < bitmap->getWidth(); ++x) {
+                    *rowBufPtr++ = *p++;
+                    *rowBufPtr++ = *alpha++;
+                }
+                png_write_row(png, (png_bytep)rowBuf);
+            }
+            gfree(rowBuf);
+        } else { // splashModeRGB8
+            rowBuf = (Guchar *)gmallocn(bitmap->getWidth(), 4);
+            for (y = 0; y < bitmap->getHeight(); ++y) {
+                
+                time_t now = time(0);
+                time_t elapsedTime = abs(startTime - now);
+                if (elapsedTime > 0)
+                {
+                    startTime = now;
+                    PA_YieldAbsolute();
+                }
+                
+                rowBufPtr = rowBuf;
+                for (x = 0; x < bitmap->getWidth(); ++x) {
+                    *rowBufPtr++ = *p++;
+                    *rowBufPtr++ = *p++;
+                    *rowBufPtr++ = *p++;
+                    *rowBufPtr++ = *alpha++;
+                }
+                png_write_row(png, (png_bytep)rowBuf);
+            }
+            gfree(rowBuf);
+        }
+    } else {
+        for (y = 0; y < bitmap->getHeight(); ++y) {
+            
+            time_t now = time(0);
+            time_t elapsedTime = abs(startTime - now);
+            if (elapsedTime > 0)
+            {
+                startTime = now;
+                PA_YieldAbsolute();
+            }
+
+            png_write_row(png, (png_bytep)p);
+            p += bitmap->getRowSize();
+        }
     }
-  } else {
-      for (y = 0; y < bitmap->getHeight(); ++y) {
-          PA_Yield();
-          png_write_row(png, (png_bytep)p);
-          p += bitmap->getRowSize();
-      }
-  }
 }
 
 static BOOL setupPNG(png_structp *png,

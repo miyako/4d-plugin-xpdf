@@ -14,8 +14,8 @@
             filePath = "4DPlugin-xpdf.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "614"
-            endingLineNumber = "614"
+            startingLineNumber = "642"
+            endingLineNumber = "642"
             landmarkName = "XPDF_Get_images(params)"
             landmarkType = "9">
          </BreakpointContent>
