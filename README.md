@@ -2,6 +2,12 @@
 ![platform](https://img.shields.io/static/v1?label=platform&message=mac-intel%20|%20mac-arm%20|%20win-64&color=blue)
 ![downloads](https://img.shields.io/github/downloads/miyako/4d-plugin-xpdf/total)
 
+### Dependencies and Licensing
+
+* the source code of this plugin developed using the [4D Plug-in SDK](https://github.com/4d/4D-Plugin-SDK) is licensed under the MIT license
+* see [Xpdf](https://www.xpdfreader.com/opensource.html) for the licensing of **Xpdf** (shared library).
+* the licensing of the binary product of this plugin is subject to the licensing of all its dependencies.
+* 
 # 4d-plugin-xpdf
 PDF tools based on [Xpdf 4.02](https://www.xpdfreader.com/opensource.html).
 
