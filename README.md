@@ -11,17 +11,15 @@
 # 4d-plugin-xpdf
 Extract text from PDF, images from PDF.
 
-#### Notes
-
-To build Xpdf without Qt dependency, open ``cmake-config.txt`` and remove the block the checks for the library. (``#--- look for Qt``). Otherwise, CMake configure fails. Note that only the ``xpdf`` tool requires Qt. For this project, we want to build ``libfofi`` ``libgoo`` ``libxpdf_objs`` ``libsplash``.
-
 ### Syntax
 
 [miyako.github.io](https://miyako.github.io/2020/04/19/4d-plugin-xpdf.html)
 
-### to add fontconfig
+#### Notes
 
-in CMake, set `CMAKE_EXE_LINKER_FLAGS`
+To build Xpdf without Qt dependency, open ``cmake-config.txt`` and remove the block the checks for the library. (``#--- look for Qt``). Otherwise, CMake configure fails. Note that only the ``xpdf`` tool requires Qt. For this project, we want to build ``libfofi`` ``libgoo`` ``libxpdf_objs`` ``libsplash``.
+
+in CMake, set `CMAKE_EXE_LINKER_FLAGS` to add fontconfig
 
 ```
 "-lfontconfig -L{LIBRARY_SEARCH_PATH}"
@@ -34,4 +32,3 @@ in *aconf.c*, set
 ```
 #define HAVE_FREETYPE_H 1
 ```
-
