@@ -9,7 +9,7 @@
 * the licensing of the binary product of this plugin is subject to the licensing of all its dependencies.
  
 # 4d-plugin-xpdf
-PDF tools based on [Xpdf 4.02](https://www.xpdfreader.com/opensource.html).
+Extract text from PDF, images from PDF.
 
 #### Notes
 
