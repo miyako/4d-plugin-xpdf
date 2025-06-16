@@ -11,6 +11,8 @@
 # 4d-plugin-xpdf
 Extract text from PDF, images from PDF.
 
+see also [4d-plugin-poppler](https://github.com/miyako/4d-plugin-poppler)
+
 ### Syntax
 
 [miyako.github.io](https://miyako.github.io/2020/04/19/4d-plugin-xpdf.html)
