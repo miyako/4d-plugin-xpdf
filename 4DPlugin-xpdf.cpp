@@ -304,7 +304,7 @@ void XPDF_Get_text(PA_PluginParameters params) {
 
         }
         
-        if(ob_get_s(options, L"layout", &_layout)) {
+        if(ob_get_a(options, L"layout", &_layout)) {
             
             if(_layout == (const uint8_t *)"table") {
                 tableLayout = gTrue;
@@ -328,11 +328,11 @@ void XPDF_Get_text(PA_PluginParameters params) {
             noPageBreaks = ob_get_b(options, L"noPageBreaks");
         }
         
-        if(ob_get_s(options, L"ownerPassword", &_ownerPassword)) {
+        if(ob_get_a(options, L"ownerPassword", &_ownerPassword)) {
             ownerPW = new GString((const char *)_ownerPassword.c_str());
         }
         
-        if(ob_get_s(options, L"userPassword",  &_userPassword)) {
+        if(ob_get_a(options, L"userPassword",  &_userPassword)) {
             userPW  = new GString((const char *)_userPassword.c_str());
         }
         
@@ -567,11 +567,11 @@ void XPDF_Get_images(PA_PluginParameters params) {
             }
         }
                 
-        if(ob_get_s(options, L"ownerPassword", &_ownerPassword)) {
+        if(ob_get_a(options, L"ownerPassword", &_ownerPassword)) {
             ownerPW = new GString((const char *)_ownerPassword.c_str());
         }
         
-        if(ob_get_s(options, L"userPassword",  &_userPassword)) {
+        if(ob_get_a(options, L"userPassword",  &_userPassword)) {
             userPW  = new GString((const char *)_userPassword.c_str());
         }
         
@@ -1038,11 +1038,11 @@ void XPDF_Get_info(PA_PluginParameters params) {
             rawDates = ob_get_b(options, L"rawDates");
         }
         
-        if(ob_get_s(options, L"ownerPassword", &_ownerPassword)) {
+        if(ob_get_a(options, L"ownerPassword", &_ownerPassword)) {
             ownerPW = new GString((const char *)_ownerPassword.c_str());
         }
         
-        if(ob_get_s(options, L"userPassword",  &_userPassword)) {
+        if(ob_get_a(options, L"userPassword",  &_userPassword)) {
             userPW  = new GString((const char *)_userPassword.c_str());
         }
         

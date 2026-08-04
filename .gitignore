@@ -2,3 +2,8 @@
 xpdf/build/*
 xpdf/test/userPreferences.*
 xpdf/test/Data/*
+.vs/*
+test/Plugins/xpdf.bundle/Contents/Windows64/xpdf.exp
+test/Plugins/xpdf.bundle/Contents/Windows64/xpdf.lib
+xpdf.vcxproj.user
+Objs/*
