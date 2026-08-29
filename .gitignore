@@ -7,3 +7,4 @@ test/Plugins/xpdf.bundle/Contents/Windows64/xpdf.exp
 test/Plugins/xpdf.bundle/Contents/Windows64/xpdf.lib
 xpdf.vcxproj.user
 Objs/*
+build/*
