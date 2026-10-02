@@ -406,7 +406,7 @@
 					/opt/homebrew/Cellar/freetype/2.12.0/lib,
 				);
 				LIBRARY_STYLE = Bundle;
-				MARKETING_VERSION = 2.0.7;
+				MARKETING_VERSION = 2.0.8;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
@@ -461,7 +461,7 @@
 					/opt/homebrew/Cellar/freetype/2.12.0/lib,
 				);
 				LIBRARY_STYLE = Bundle;
-				MARKETING_VERSION = 2.0.7;
+				MARKETING_VERSION = 2.0.8;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
@@ -514,7 +514,7 @@
 					/opt/homebrew/Cellar/freetype/2.12.0/lib,
 				);
 				LIBRARY_STYLE = Bundle;
-				MARKETING_VERSION = 2.0.7;
+				MARKETING_VERSION = 2.0.8;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
@@ -577,7 +577,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = macosx;
 				SYMROOT = "$(SRCROOT)/test/Plugins";
-				MARKETING_VERSION = 2.0.7;
+				MARKETING_VERSION = 2.0.8;
 				CURRENT_PROJECT_VERSION = 2.0.6;
 			};
 			name = Development;
@@ -625,7 +625,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = macosx;
 				SYMROOT = "$(SRCROOT)/test/Plugins";
-				MARKETING_VERSION = 2.0.7;
+				MARKETING_VERSION = 2.0.8;
 				CURRENT_PROJECT_VERSION = 2.0.6;
 			};
 			name = Deployment;
@@ -672,7 +672,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = macosx;
 				SYMROOT = "$(SRCROOT)/test/Plugins";
-				MARKETING_VERSION = 2.0.7;
+				MARKETING_VERSION = 2.0.8;
 				CURRENT_PROJECT_VERSION = 2.0.6;
 			};
 			name = Default;
